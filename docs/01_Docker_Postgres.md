@@ -7,7 +7,7 @@ Erstelle ein neues Spring‑Boot‑Projekt mit dem Bezeichner `store`. **Group**
 Benötigte Abhängigkeiten: **Spring Web**, **Spring Data JPA**, **Lombok**, **PostgreSQL Driver**.
 
 Erstelle im Hauptverzeichnis deines Projekts (auf Root-Ebene) die Datei **`compose.yml`**.
-
+- [ ] Docker installieren
 
 
 In der Regel bilden mehrere Docker‑Container eine Anwendung. **Docker Compose** dient dazu, mehrere Images zu konfigurieren und hintereinander zu starten (anstatt jeden Container einzeln). In unserem Fall benötigen wir **nur einen** Container: die PostgreSQL‑Datenbank.
@@ -47,3 +47,8 @@ services:
    - Optional mit `-d` für Detached-Modus (Hintergrund): `docker compose up -d`
 4. Beenden: `docker compose down`  
 5. Volume ggf. löschen: `docker volume rm store_postgres_data`
+
+
+> **Fortschritt:** <!-- wird live gezählt -->
+> - Gesamt: <span id="t-total">0</span>
+> - Erledigt: <span id="t-done">0</span>

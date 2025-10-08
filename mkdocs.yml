@@ -41,14 +41,17 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tasklist:
+      custom_checkbox: true
 
 extra:
   generator: false
 
+extra_javascript:
+  - assets/js/progress.js
+  
 plugins:
   - search
-  - git-revision-date-localized:
-      fallback_to_build_date: true     # "Zuletzt aktualisiert" am Seitenende
   - awesome-pages                     # Automatische Navigation nach Ordnerstruktur
   - minify:
       minify_html: true               # Schnellere Ladezeiten durch kleinere Seiten
