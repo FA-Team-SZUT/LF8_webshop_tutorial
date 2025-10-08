@@ -51,20 +51,21 @@
     }
 
     function addResetButton(onClick) {
+        // Verhindert doppelte Buttons
+        if (document.querySelector('.reset-progress-btn')) return;
+
         const header = document.querySelector('.md-content__inner > :first-child');
         if (!header) return;
+
         const btn = document.createElement('button');
         btn.textContent = 'Fortschritt zurücksetzen';
+        btn.className = 'md-button reset-progress-btn';
         btn.style.margin = '0.5rem 0 1rem';
-        btn.className = 'md-button';
         btn.addEventListener('click', onClick);
         header.insertAdjacentElement('afterend', btn);
     }
 
     // neu initialisieren, wenn Material Seiten “instant” lädt
     document.addEventListener('DOMContentLoaded', init);
-    document.addEventListener('readystatechange', () => {
-        if (document.readyState === 'complete') init();
-    });
-    document.addEventListener('swup:contentReplaced', init);
+    document$.subscribe(() => init());
 })();
