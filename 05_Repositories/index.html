@@ -530,10 +530,10 @@
 <p>Hinweis: Du musst nur jeweils ein <strong>Interface</strong> anlegen, das <code>JpaRepository</code> erweitert.</p>
 </blockquote>
 <p><strong>Beispiel:</strong></p>
-<pre><code class="language-java">public interface SupplierRepository extends JpaRepository&lt;SupplierEntity, Long&gt; { }
-</code></pre>
-<pre><code class="language-java">public interface ArticleRepository extends JpaRepository&lt;ArticleEntity, Long&gt; { }
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">SupplierRepository</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">SupplierEntity</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">ArticleRepository</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">ArticleEntity</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
 <h2 id="was-bewirkt-das-erweitern-von-jparepository">Was bewirkt das Erweitern von JpaRepository?<a class="headerlink" href="#was-bewirkt-das-erweitern-von-jparepository" title="Permanent link">&para;</a></h2>
 <p>Durch das Erweitern von <code>JpaRepository&lt;SupplierEntity, Long&gt;</code> erhält das Repository automatisch eine Vielzahl von CRUD-Operationen (Create, Read, Update, Delete), <strong>ohne dass du diese Methoden selbst implementieren musst</strong>:</p>
 <ul>

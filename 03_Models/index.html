@@ -544,93 +544,93 @@
 
 <h1 id="implementierung-der-models">Implementierung der Models<a class="headerlink" href="#implementierung-der-models" title="Permanent link">&para;</a></h1>
 <p>Für die Validierung unserer Modelklassen benötigen wir eine weitere Abhängigkeit. Füge daher in der <code>build.gradle.kts</code> die folgende Abhängigkeit am Ende des Dependencies‑Bereichs hinzu:</p>
-<pre><code class="language-kotlin">implementation(&quot;org.springframework.boot:spring-boot-starter-validation&quot;)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;org.springframework.boot:spring-boot-starter-validation&quot;</span><span class="p">)</span>
+</code></pre></div>
 <p>Bisher haben wir eine Package‑Struktur gewählt, die die Dateien nach ihrer Schicht innerhalb der Anwendung sortiert hat: <code>controller</code>, <code>model</code>, <code>repository</code>. Das ist im Prinzip auch in Ordnung. Beim Entwickeln größerer Anwendungen kann es aber nerven, ständig zwischen den Packages hin und her wechseln zu müssen, sobald man Änderungen an einem Modul vornimmt, weil sich der Controller, das Model, womöglich verschiedene Services und das Repository in unterschiedlichen Packages befinden. Wir wählen daher dieses Mal eine <strong>Sortierung nach Modulen</strong>. Erstelle daher erst einmal die Packages <code>supplier</code>, <code>article</code> und <code>contact</code>.</p>
 <p>Um den Zweck der Modelklassen im Namen deutlicher hervorzuheben, hängen wir an jede Modelklassenbezeichnung das Wörtchen <strong>Entity</strong> an. Das erleichtert noch einmal die Suche nach unseren Klassen in der neuen Package‑Struktur.</p>
 <h2 id="contactentity">ContactEntity<a class="headerlink" href="#contactentity" title="Permanent link">&para;</a></h2>
 <p>Implementiere im Package <code>contact</code> eine Klasse mit dem Bezeichner <code>ContactEntity</code>. Lasse Konstruktoren, Getter und Setter von Lombok generieren. Annotiere analog zur letzten Übung die Klasse, so dass sie von Spring Data in einem Datenbankmodell abgebildet wird. Benutze für die automatische Generierung des Primärschlüssels dieses Mal die Strategie <strong>IDENTITY</strong>. Sie bewirkt, dass nicht mehr die angelegten Entitäten egal welchen Typs von 1 beginnend, sondern die Entitäten jeder einzelnen Tabelle beginnend mit 1 durchgezählt werden.</p>
 <p>Um die Standardbezeichnungen von Hibernate zu umgehen und Kontaktobjekte später validieren zu können, erhält die Klasse <code>ContactEntity</code> weitere Annotationen. Zum einen soll es nicht möglich sein, Kontaktdaten mit null‑Werten anzulegen. Es sollen nur vollständige Adressen mit Angabe der Straße, der Postleitzahl und des Ortes akzeptiert werden, wobei die Länge der Straßen‑ und der Ortangabe 50 Zeichen nicht überschreiten darf. Zum anderen soll die Datenbanktabelle für den Kontakt nicht den Bezeichner der Klasse haben, sondern <strong>„supplier_contact“</strong> heißen. Außerdem soll die Spalte für die Postleitzahl mit der englischen Abkürzung <strong>„zip“</strong> bezeichnet werden. Annotiere die Klasse daher wie unten abgebildet.</p>
-<pre><code class="language-java">@Entity
-@Table(name = &quot;supplier_contact&quot;)
-@Getter
-@Setter
-@NoArgsConstructor
-public class ContactEntity {
+<div class="highlight"><pre><span></span><code><span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;supplier_contact&quot;</span><span class="p">)</span>
+<span class="nd">@Getter</span>
+<span class="nd">@Setter</span>
+<span class="nd">@NoArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ContactEntity</span><span class="w"> </span><span class="p">{</span>
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cid;
+<span class="w">    </span><span class="nd">@Id</span>
+<span class="w">    </span><span class="nd">@GeneratedValue</span><span class="p">(</span><span class="n">strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GenerationType</span><span class="p">.</span><span class="na">IDENTITY</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">cid</span><span class="p">;</span>
 
-    @NotBlank(message = &quot;Street is mandatory&quot;)
-    @Size(max = 50)
-    private String street;
+<span class="w">    </span><span class="nd">@NotBlank</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Street is mandatory&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@Size</span><span class="p">(</span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">street</span><span class="p">;</span>
 
-    @NotBlank(message = &quot;Postcode is mandatory&quot;)
-    @Column(name = &quot;zip&quot;)
-    private String postcode;
+<span class="w">    </span><span class="nd">@NotBlank</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Postcode is mandatory&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@Column</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;zip&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">postcode</span><span class="p">;</span>
 
-    @NotBlank(message = &quot;City is mandatory&quot;)
-    @Size(max = 50)
-    private String city;
+<span class="w">    </span><span class="nd">@NotBlank</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;City is mandatory&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@Size</span><span class="p">(</span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">city</span><span class="p">;</span>
 
-    @NotBlank(message = &quot;Phone is mandatory&quot;)
-    private String phone;
-}
-</code></pre>
+<span class="w">    </span><span class="nd">@NotBlank</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Phone is mandatory&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">phone</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
 <p><strong>Hinweis:</strong> Falls IntelliJ die neuen Annotationen mit „Cannot resolve table 'supplier_contact'“ markiert, siehe: https://stackoverflow.com/questions/58666411/cannot-resolve-table-xx-in-spring-boot-application</p>
 <p>Statt <code>@NotBlank</code> könnten auch <code>@NotNull</code> oder <code>@NotEmpty</code> verwendet werden. <code>@NotNull</code> verhindert lediglich <code>null</code>, <code>@NotEmpty</code> verlangt Länge &gt; 0, <code>@NotBlank</code> verhindert darüber hinaus nur Leerzeichen.</p>
 <h2 id="supplierentity">SupplierEntity<a class="headerlink" href="#supplierentity" title="Permanent link">&para;</a></h2>
 <p>Implementiere analog zu <code>ContactEntity</code> die Klasse <code>SupplierEntity</code>. Beachte: Die Datenbanktabelle soll <code>supplier</code> heißen und der Name ist Pflichtfeld (max. 50 Zeichen).</p>
-<pre><code class="language-java">@Entity
-@Table(name = &quot;supplier&quot;)
-@Getter
-@Setter
-@NoArgsConstructor
-public class SupplierEntity {
+<div class="highlight"><pre><span></span><code><span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;supplier&quot;</span><span class="p">)</span>
+<span class="nd">@Getter</span>
+<span class="nd">@Setter</span>
+<span class="nd">@NoArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SupplierEntity</span><span class="w"> </span><span class="p">{</span>
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sid;
+<span class="w">    </span><span class="nd">@Id</span>
+<span class="w">    </span><span class="nd">@GeneratedValue</span><span class="p">(</span><span class="n">strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GenerationType</span><span class="p">.</span><span class="na">IDENTITY</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">sid</span><span class="p">;</span>
 
-    @NotBlank(message = &quot;Name is mandatory&quot;)
-    @Size(max = 50)
-    private String name;
+<span class="w">    </span><span class="nd">@NotBlank</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Name is mandatory&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@Size</span><span class="p">(</span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private ContactEntity contact;
+<span class="w">    </span><span class="nd">@OneToOne</span><span class="p">(</span><span class="n">fetch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FetchType</span><span class="p">.</span><span class="na">LAZY</span><span class="p">,</span><span class="w"> </span><span class="n">cascade</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CascadeType</span><span class="p">.</span><span class="na">ALL</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ContactEntity</span><span class="w"> </span><span class="n">contact</span><span class="p">;</span>
 
-    @OneToMany(mappedBy = &quot;supplier&quot;,
-               fetch = FetchType.LAZY)
-    private Set&lt;ArticleEntity&gt; articles = new HashSet&lt;&gt;();
-}
-</code></pre>
+<span class="w">    </span><span class="nd">@OneToMany</span><span class="p">(</span><span class="n">mappedBy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;supplier&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="n">fetch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FetchType</span><span class="p">.</span><span class="na">LAZY</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">ArticleEntity</span><span class="o">&gt;</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashSet</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="articleentity">ArticleEntity<a class="headerlink" href="#articleentity" title="Permanent link">&para;</a></h2>
 <p>Implementiere die Klasse <code>ArticleEntity</code> wie unten angegeben. Die Attribute <code>designation</code> und <code>price</code> sind Pflichtwerte. Beachte die verwendeten Lombok‑Annotationen <code>@Getter</code>, <code>@Setter</code> und <code>@NoArgsConstructor</code>, die anstelle der <code>@Data</code> verwendet wurden. <code>@Data</code> überschreibt u. a. <code>hashCode()</code> und führt hier später zu Fehlern in Hibernate.</p>
-<pre><code class="language-java">@Entity
-@Table(name = &quot;article&quot;)
-@Getter
-@Setter
-@NoArgsConstructor
-public class ArticleEntity {
+<div class="highlight"><pre><span></span><code><span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;article&quot;</span><span class="p">)</span>
+<span class="nd">@Getter</span>
+<span class="nd">@Setter</span>
+<span class="nd">@NoArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ArticleEntity</span><span class="w"> </span><span class="p">{</span>
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long aid;
+<span class="w">    </span><span class="nd">@Id</span>
+<span class="w">    </span><span class="nd">@GeneratedValue</span><span class="p">(</span><span class="n">strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GenerationType</span><span class="p">.</span><span class="na">IDENTITY</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">aid</span><span class="p">;</span>
 
-    @NotBlank(message = &quot;Designation is mandatory&quot;)
-    private String designation;
+<span class="w">    </span><span class="nd">@NotBlank</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Designation is mandatory&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">designation</span><span class="p">;</span>
 
-    @NotNull(message = &quot;Price is mandatory&quot;)
-    private Double price;
+<span class="w">    </span><span class="nd">@NotNull</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Price is mandatory&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Double</span><span class="w"> </span><span class="n">price</span><span class="p">;</span>
 
-    private LocalDateTime createDate;
-    private LocalDateTime lastUpdateDate;
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="w"> </span><span class="n">createDate</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="w"> </span><span class="n">lastUpdateDate</span><span class="p">;</span>
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private SupplierEntity supplier;
-}
-</code></pre>
+<span class="w">    </span><span class="nd">@ManyToOne</span><span class="p">(</span><span class="n">fetch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FetchType</span><span class="p">.</span><span class="na">LAZY</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">SupplierEntity</span><span class="w"> </span><span class="n">supplier</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
 
 
 

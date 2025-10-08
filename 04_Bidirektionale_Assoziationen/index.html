@@ -577,18 +577,18 @@
 <h2 id="11-supplierentity-contactentity">1:1 – SupplierEntity ↔ ContactEntity<a class="headerlink" href="#11-supplierentity-contactentity" title="Permanent link">&para;</a></h2>
 <p>Zwischen <code>SupplierEntity</code> und <code>ContactEntity</code> besteht eine <strong>1:1‑Beziehung</strong>. In relationalen DBs wird eine 1:1 so umgesetzt, dass der Primärschlüssel einer Tabelle als <strong>Fremdschlüssel</strong> in der anderen aufgenommen wird. Welche Tabelle den FK erhält, ist frei wählbar.</p>
 <p>In unserem Datenmodell geben wir die 1:1‑Beziehung über <code>@OneToOne</code> an:</p>
-<pre><code class="language-java">public class SupplierEntity {
-    …
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private ContactEntity contact;
-}
-</code></pre>
-<pre><code class="language-java">public class ContactEntity {
-    …
-    @OneToOne(mappedBy = &quot;contact&quot;, fetch = FetchType.LAZY)
-    private SupplierEntity supplier;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SupplierEntity</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="err">…</span>
+<span class="w">    </span><span class="nd">@OneToOne</span><span class="p">(</span><span class="n">fetch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FetchType</span><span class="p">.</span><span class="na">LAZY</span><span class="p">,</span><span class="w"> </span><span class="n">cascade</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CascadeType</span><span class="p">.</span><span class="na">ALL</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ContactEntity</span><span class="w"> </span><span class="n">contact</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ContactEntity</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="err">…</span>
+<span class="w">    </span><span class="nd">@OneToOne</span><span class="p">(</span><span class="n">mappedBy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;contact&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">fetch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FetchType</span><span class="p">.</span><span class="na">LAZY</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">SupplierEntity</span><span class="w"> </span><span class="n">supplier</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
 <p>Da Hibernate wissen muss, in welcher Tabelle der Fremdschlüssel eingefügt werden soll, deklarieren wir über <code>mappedBy</code> den <strong>Eigentümer</strong> der Beziehung. Das Mapping bewirkt, dass Hibernate in der Tabelle <code>supplier</code> statt eines eingebetteten Objekts einen <strong>Fremdschlüssel</strong> einfügt (Default‑Benennung <code>contact_id</code>).</p>
 <h3 id="hinweis-zu-cascading">Hinweis zu Cascading<a class="headerlink" href="#hinweis-zu-cascading" title="Permanent link">&para;</a></h3>
 <p><code>cascade = CascadeType.ALL</code> sorgt dafür, dass Speichern/Ändern/Löschen vom Supplier auf Contact kaskadiert wird. Das ist hier <strong>sinnvoll</strong>, da <code>ContactEntity</code>  nur als Teil eines Suppliers existieren soll und ohne ihn keine eigenständige Bedeutung hat.</p>
@@ -602,18 +602,18 @@
 <h2 id="1n-supplierentity-articleentity">1:n – SupplierEntity ↔ ArticleEntity<a class="headerlink" href="#1n-supplierentity-articleentity" title="Permanent link">&para;</a></h2>
 <p>Zwischen <code>SupplierEntity</code> und <code>ArticleEntity</code> besteht eine <strong>1:n‑Beziehung</strong>. Ein Lieferant liefert 0..n Artikel; ein Artikel gehört hier genau zu <strong>einem</strong> Lieferanten.</p>
 <p>In der relationalen Abbildung erhält die <strong>n‑Seite</strong> den FK. In Java genügt auf der n‑Seite:</p>
-<pre><code class="language-java">@Entity
-public class ArticleEntity {
-    …
-    @ManyToOne(fetch = FetchType.LAZY)
-    private SupplierEntity supplier;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nd">@Entity</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ArticleEntity</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="err">…</span>
+<span class="w">    </span><span class="nd">@ManyToOne</span><span class="p">(</span><span class="n">fetch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FetchType</span><span class="p">.</span><span class="na">LAZY</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">SupplierEntity</span><span class="w"> </span><span class="n">supplier</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
 <p>Die obige Annotation würde eine <strong>unidirektionale</strong> Assoziation implementieren (nur Artikel kennt seinen Lieferanten). Wir wollen sie <strong>bidirektional</strong>: Supplier kennt seine Artikel.</p>
 <p>Ergänze daher in <code>SupplierEntity</code>:</p>
-<pre><code class="language-java">@OneToMany(mappedBy = &quot;supplier&quot;, fetch = FetchType.LAZY)
-private Set&lt;ArticleEntity&gt; articles = new HashSet&lt;&gt;();
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nd">@OneToMany</span><span class="p">(</span><span class="n">mappedBy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;supplier&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">fetch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FetchType</span><span class="p">.</span><span class="na">LAZY</span><span class="p">)</span>
+<span class="kd">private</span><span class="w"> </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">ArticleEntity</span><span class="o">&gt;</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashSet</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+</code></pre></div>
 <p>Wichtig ist <code>mappedBy = "supplier"</code>. In einer bidirektionalen Beziehung muss eine Seite der <strong>Eigentümer</strong> sein. <strong>Aus Performance‑Gründen</strong> wählt man fast immer die <strong>@ManyToOne‑Seite</strong> (hier: <code>ArticleEntity</code>) als Eigentümer.</p>
 <h3 id="warnung-kein-cascading-bei-1n-beziehungen">⚠️ Warnung: Kein Cascading bei 1:n-Beziehungen!<a class="headerlink" href="#warnung-kein-cascading-bei-1n-beziehungen" title="Permanent link">&para;</a></h3>
 <p><strong>Warum hier KEIN <code>cascade = CascadeType.ALL</code>?</strong></p>

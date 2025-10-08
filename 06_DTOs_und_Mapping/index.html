@@ -670,43 +670,43 @@
 - <code>toEntity(dto)</code> – Konvertiert DTO zu Entity (bei Input-DTOs)
 - <code>toDto(entity)</code> – Konvertiert Entity zu DTO (bei Output-DTOs)</p>
 <h3 id="beispieldtos-mit-mapping-logik">Beispiel‑DTOs mit Mapping-Logik<a class="headerlink" href="#beispieldtos-mit-mapping-logik" title="Permanent link">&para;</a></h3>
-<pre><code class="language-java">@Getter
-@Setter
-@NoArgsConstructor
-public class AddSupplierDto {
-    @NotBlank(message = &quot;Name is mandatory&quot;)
-    private String name;
+<div class="highlight"><pre><span></span><code><span class="nd">@Getter</span>
+<span class="nd">@Setter</span>
+<span class="nd">@NoArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AddSupplierDto</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@NotBlank</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Name is mandatory&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
 
-    @NotBlank(message = &quot;Street is mandatory&quot;)
-    private String street;
+<span class="w">    </span><span class="nd">@NotBlank</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Street is mandatory&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">street</span><span class="p">;</span>
 
-    @NotBlank(message = &quot;Postcode is mandatory&quot;)
-    private String postcode;
+<span class="w">    </span><span class="nd">@NotBlank</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Postcode is mandatory&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">postcode</span><span class="p">;</span>
 
-    @NotBlank(message = &quot;City is mandatory&quot;)
-    private String city;
+<span class="w">    </span><span class="nd">@NotBlank</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;City is mandatory&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">city</span><span class="p">;</span>
 
-    @NotBlank(message = &quot;Phone is mandatory&quot;)
-    private String phone;
+<span class="w">    </span><span class="nd">@NotBlank</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Phone is mandatory&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">phone</span><span class="p">;</span>
 
-    /**
-     * Konvertiert dieses DTO in eine SupplierEntity mit ContactEntity
-     */
-    public static SupplierEntity toEntity(AddSupplierDto dto) {
-        SupplierEntity supplier = new SupplierEntity();
-        supplier.setName(dto.getName());
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * Konvertiert dieses DTO in eine SupplierEntity mit ContactEntity</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">SupplierEntity</span><span class="w"> </span><span class="nf">toEntity</span><span class="p">(</span><span class="n">AddSupplierDto</span><span class="w"> </span><span class="n">dto</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">SupplierEntity</span><span class="w"> </span><span class="n">supplier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SupplierEntity</span><span class="p">();</span>
+<span class="w">        </span><span class="n">supplier</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="n">dto</span><span class="p">.</span><span class="na">getName</span><span class="p">());</span>
 
-        ContactEntity contact = new ContactEntity();
-        contact.setStreet(dto.getStreet());
-        contact.setPostcode(dto.getPostcode());
-        contact.setCity(dto.getCity());
-        contact.setPhone(dto.getPhone());
+<span class="w">        </span><span class="n">ContactEntity</span><span class="w"> </span><span class="n">contact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ContactEntity</span><span class="p">();</span>
+<span class="w">        </span><span class="n">contact</span><span class="p">.</span><span class="na">setStreet</span><span class="p">(</span><span class="n">dto</span><span class="p">.</span><span class="na">getStreet</span><span class="p">());</span>
+<span class="w">        </span><span class="n">contact</span><span class="p">.</span><span class="na">setPostcode</span><span class="p">(</span><span class="n">dto</span><span class="p">.</span><span class="na">getPostcode</span><span class="p">());</span>
+<span class="w">        </span><span class="n">contact</span><span class="p">.</span><span class="na">setCity</span><span class="p">(</span><span class="n">dto</span><span class="p">.</span><span class="na">getCity</span><span class="p">());</span>
+<span class="w">        </span><span class="n">contact</span><span class="p">.</span><span class="na">setPhone</span><span class="p">(</span><span class="n">dto</span><span class="p">.</span><span class="na">getPhone</span><span class="p">());</span>
 
-        supplier.setContact(contact);
-        return supplier;
-    }
-}
-</code></pre>
+<span class="w">        </span><span class="n">supplier</span><span class="p">.</span><span class="na">setContact</span><span class="p">(</span><span class="n">contact</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">supplier</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 
 
 

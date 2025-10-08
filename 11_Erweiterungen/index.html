@@ -733,44 +733,44 @@
 </table>
 <h3 id="beispiel-ohne-vs-mit-hateoas">Beispiel: Ohne vs. Mit HATEOAS<a class="headerlink" href="#beispiel-ohne-vs-mit-hateoas" title="Permanent link">&para;</a></h3>
 <h4 id="ohne-hateoas-traditionell">❌ Ohne HATEOAS (traditionell)<a class="headerlink" href="#ohne-hateoas-traditionell" title="Permanent link">&para;</a></h4>
-<pre><code class="language-json">GET /store/supplier/1
+<div class="highlight"><pre><span></span><code><span class="err">GET</span><span class="w"> </span><span class="err">/s</span><span class="kc">t</span><span class="err">ore/supplier/</span><span class="mi">1</span>
 
-{
-  &quot;sid&quot;: 1,
-  &quot;name&quot;: &quot;Meier GmbH&quot;,
-  &quot;street&quot;: &quot;Hauptstraße 10&quot;,
-  &quot;postcode&quot;: &quot;28209&quot;,
-  &quot;city&quot;: &quot;Bremen&quot;,
-  &quot;phone&quot;: &quot;0421123456&quot;
-}
-</code></pre>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;sid&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Meier GmbH&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;street&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hauptstraße 10&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;postcode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;28209&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Bremen&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;phone&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0421123456&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
 <p><strong>Problem:</strong> Client muss selbst wissen, dass er unter <code>/store/article/supplier/1</code> die Artikel finden kann.</p>
 <h4 id="mit-hateoas-empfohlen">✅ Mit HATEOAS (empfohlen)<a class="headerlink" href="#mit-hateoas-empfohlen" title="Permanent link">&para;</a></h4>
-<pre><code class="language-json">GET /store/supplier/1
+<div class="highlight"><pre><span></span><code><span class="err">GET</span><span class="w"> </span><span class="err">/s</span><span class="kc">t</span><span class="err">ore/supplier/</span><span class="mi">1</span>
 
-{
-  &quot;sid&quot;: 1,
-  &quot;name&quot;: &quot;Meier GmbH&quot;,
-  &quot;street&quot;: &quot;Hauptstraße 10&quot;,
-  &quot;postcode&quot;: &quot;28209&quot;,
-  &quot;city&quot;: &quot;Bremen&quot;,
-  &quot;phone&quot;: &quot;0421123456&quot;,
-  &quot;_links&quot;: {
-    &quot;self&quot;: {
-      &quot;href&quot;: &quot;http://localhost:8080/store/supplier/1&quot;
-    },
-    &quot;articles&quot;: {
-      &quot;href&quot;: &quot;http://localhost:8080/store/article/supplier/1&quot;
-    },
-    &quot;update&quot;: {
-      &quot;href&quot;: &quot;http://localhost:8080/store/supplier/1&quot;
-    },
-    &quot;delete&quot;: {
-      &quot;href&quot;: &quot;http://localhost:8080/store/supplier/1&quot;
-    }
-  }
-}
-</code></pre>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;sid&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Meier GmbH&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;street&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hauptstraße 10&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;postcode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;28209&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Bremen&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;phone&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0421123456&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;_links&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;self&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;href&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://localhost:8080/store/supplier/1&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;articles&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;href&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://localhost:8080/store/article/supplier/1&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;update&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;href&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://localhost:8080/store/supplier/1&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;delete&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;href&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://localhost:8080/store/supplier/1&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <p><strong>Vorteil:</strong> Der Client sieht sofort:
 - Wo er die <strong>Artikel</strong> dieses Suppliers findet
 - Wie er den Supplier <strong>aktualisieren</strong> kann
@@ -779,104 +779,104 @@
 <h3 id="aufgabe-hateoas-implementieren">Aufgabe: HATEOAS implementieren<a class="headerlink" href="#aufgabe-hateoas-implementieren" title="Permanent link">&para;</a></h3>
 <p>Beim <code>GET /store/supplier/{id}</code>-Endpunkt soll ein Link enthalten sein, der auf die <strong>Artikel des Lieferanten</strong> verweist.</p>
 <h4 id="abhangigkeit-hinzufugen">Abhängigkeit hinzufügen<a class="headerlink" href="#abhangigkeit-hinzufugen" title="Permanent link">&para;</a></h4>
-<pre><code class="language-kotlin">// build.gradle.kts
-implementation(&quot;org.springframework.boot:spring-boot-starter-hateoas&quot;)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c1">// build.gradle.kts</span>
+<span class="n">implementation</span><span class="p">(</span><span class="s">&quot;org.springframework.boot:spring-boot-starter-hateoas&quot;</span><span class="p">)</span>
+</code></pre></div>
 <h4 id="getsupplierdto-erweitern">GetSupplierDto erweitern<a class="headerlink" href="#getsupplierdto-erweitern" title="Permanent link">&para;</a></h4>
-<pre><code class="language-java">import org.springframework.hateoas.RepresentationModel;
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.hateoas.RepresentationModel</span><span class="p">;</span>
 
-@Getter
-@Setter
-@NoArgsConstructor
-public class GetSupplierDto extends RepresentationModel&lt;GetSupplierDto&gt; {
-    private Long sid;
-    private String name;
-    private String street;
-    private String postcode;
-    private String city;
-    private String phone;
+<span class="nd">@Getter</span>
+<span class="nd">@Setter</span>
+<span class="nd">@NoArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GetSupplierDto</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">RepresentationModel</span><span class="o">&lt;</span><span class="n">GetSupplierDto</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">sid</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">street</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">postcode</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">city</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">phone</span><span class="p">;</span>
 
-    public static GetSupplierDto toDto(SupplierEntity entity) {
-        GetSupplierDto dto = new GetSupplierDto();
-        dto.setSid(entity.getSid());
-        dto.setName(entity.getName());
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">GetSupplierDto</span><span class="w"> </span><span class="nf">toDto</span><span class="p">(</span><span class="n">SupplierEntity</span><span class="w"> </span><span class="n">entity</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">GetSupplierDto</span><span class="w"> </span><span class="n">dto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">GetSupplierDto</span><span class="p">();</span>
+<span class="w">        </span><span class="n">dto</span><span class="p">.</span><span class="na">setSid</span><span class="p">(</span><span class="n">entity</span><span class="p">.</span><span class="na">getSid</span><span class="p">());</span>
+<span class="w">        </span><span class="n">dto</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="n">entity</span><span class="p">.</span><span class="na">getName</span><span class="p">());</span>
 
-        if (entity.getContact() != null) {
-            dto.setStreet(entity.getContact().getStreet());
-            dto.setPostcode(entity.getContact().getPostcode());
-            dto.setCity(entity.getContact().getCity());
-            dto.setPhone(entity.getContact().getPhone());
-        }
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">entity</span><span class="p">.</span><span class="na">getContact</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">dto</span><span class="p">.</span><span class="na">setStreet</span><span class="p">(</span><span class="n">entity</span><span class="p">.</span><span class="na">getContact</span><span class="p">().</span><span class="na">getStreet</span><span class="p">());</span>
+<span class="w">            </span><span class="n">dto</span><span class="p">.</span><span class="na">setPostcode</span><span class="p">(</span><span class="n">entity</span><span class="p">.</span><span class="na">getContact</span><span class="p">().</span><span class="na">getPostcode</span><span class="p">());</span>
+<span class="w">            </span><span class="n">dto</span><span class="p">.</span><span class="na">setCity</span><span class="p">(</span><span class="n">entity</span><span class="p">.</span><span class="na">getContact</span><span class="p">().</span><span class="na">getCity</span><span class="p">());</span>
+<span class="w">            </span><span class="n">dto</span><span class="p">.</span><span class="na">setPhone</span><span class="p">(</span><span class="n">entity</span><span class="p">.</span><span class="na">getContact</span><span class="p">().</span><span class="na">getPhone</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
 
-        return dto;
-    }
-}
-</code></pre>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">dto</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <h4 id="controller-methode-anpassen">Controller-Methode anpassen<a class="headerlink" href="#controller-methode-anpassen" title="Permanent link">&para;</a></h4>
-<pre><code class="language-java">import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+<div class="highlight"><pre><span></span><code><span class="kn">import static</span><span class="w"> </span><span class="nn">org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*</span><span class="p">;</span>
 
-@GetMapping(&quot;/{id}&quot;)
-public ResponseEntity&lt;GetSupplierDto&gt; getSupplierById(@PathVariable Long id) {
-    SupplierEntity entity = supplierService.findById(id);
-    GetSupplierDto dto = GetSupplierDto.toDto(entity);
+<span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/{id}&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">GetSupplierDto</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getSupplierById</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">SupplierEntity</span><span class="w"> </span><span class="n">entity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">supplierService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+<span class="w">    </span><span class="n">GetSupplierDto</span><span class="w"> </span><span class="n">dto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetSupplierDto</span><span class="p">.</span><span class="na">toDto</span><span class="p">(</span><span class="n">entity</span><span class="p">);</span>
 
-    // HATEOAS-Links hinzufügen
-    dto.add(linkTo(methodOn(SupplierController.class).getSupplierById(id)).withSelfRel());
-    dto.add(linkTo(methodOn(ArticleController.class).getArticlesBySupplier(id)).withRel(&quot;articles&quot;));
+<span class="w">    </span><span class="c1">// HATEOAS-Links hinzufügen</span>
+<span class="w">    </span><span class="n">dto</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">linkTo</span><span class="p">(</span><span class="n">methodOn</span><span class="p">(</span><span class="n">SupplierController</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">getSupplierById</span><span class="p">(</span><span class="n">id</span><span class="p">)).</span><span class="na">withSelfRel</span><span class="p">());</span>
+<span class="w">    </span><span class="n">dto</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">linkTo</span><span class="p">(</span><span class="n">methodOn</span><span class="p">(</span><span class="n">ArticleController</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">getArticlesBySupplier</span><span class="p">(</span><span class="n">id</span><span class="p">)).</span><span class="na">withRel</span><span class="p">(</span><span class="s">&quot;articles&quot;</span><span class="p">));</span>
 
-    return ResponseEntity.ok(dto);
-}
-</code></pre>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="p">.</span><span class="na">ok</span><span class="p">(</span><span class="n">dto</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
 <h4 id="artikel-endpunkt-im-articlecontroller">Artikel-Endpunkt im ArticleController<a class="headerlink" href="#artikel-endpunkt-im-articlecontroller" title="Permanent link">&para;</a></h4>
-<pre><code class="language-java">@GetMapping(&quot;/supplier/{supplierId}&quot;)
-public ResponseEntity&lt;List&lt;GetArticleDto&gt;&gt; getArticlesBySupplier(@PathVariable Long supplierId) {
-    List&lt;ArticleEntity&gt; articles = articleService.findBySupplier(supplierId);
-    List&lt;GetArticleDto&gt; dtos = articles.stream()
-        .map(GetArticleDto::toDto)
-        .collect(Collectors.toList());
-    return ResponseEntity.ok(dtos);
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/supplier/{supplierId}&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">GetArticleDto</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="nf">getArticlesBySupplier</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">supplierId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">ArticleEntity</span><span class="o">&gt;</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">articleService</span><span class="p">.</span><span class="na">findBySupplier</span><span class="p">(</span><span class="n">supplierId</span><span class="p">);</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">GetArticleDto</span><span class="o">&gt;</span><span class="w"> </span><span class="n">dtos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">articles</span><span class="p">.</span><span class="na">stream</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">GetArticleDto</span><span class="p">::</span><span class="n">toDto</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="p">.</span><span class="na">toList</span><span class="p">());</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="p">.</span><span class="na">ok</span><span class="p">(</span><span class="n">dtos</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
 <h4 id="service-methode-hinzufugen">Service-Methode hinzufügen<a class="headerlink" href="#service-methode-hinzufugen" title="Permanent link">&para;</a></h4>
-<pre><code class="language-java">// ArticleService
-public List&lt;ArticleEntity&gt; findBySupplier(Long supplierId) {
-    SupplierEntity supplier = supplierRepository.findById(supplierId)
-        .orElseThrow(() -&gt; new ResourceNotFoundException(
-            &quot;Supplier not found on Id = &quot; + supplierId));
-    return new ArrayList&lt;&gt;(supplier.getArticles());
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c1">// ArticleService</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">ArticleEntity</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findBySupplier</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">supplierId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">SupplierEntity</span><span class="w"> </span><span class="n">supplier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">supplierRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">supplierId</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">orElseThrow</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ResourceNotFoundException</span><span class="p">(</span>
+<span class="w">            </span><span class="s">&quot;Supplier not found on Id = &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">supplierId</span><span class="p">));</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">supplier</span><span class="p">.</span><span class="na">getArticles</span><span class="p">());</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="erwartete-response-mit-hateoas">Erwartete Response mit HATEOAS<a class="headerlink" href="#erwartete-response-mit-hateoas" title="Permanent link">&para;</a></h3>
-<pre><code class="language-json">{
-  &quot;sid&quot;: 1,
-  &quot;name&quot;: &quot;Meier GmbH&quot;,
-  &quot;street&quot;: &quot;Hauptstraße 10&quot;,
-  &quot;postcode&quot;: &quot;28209&quot;,
-  &quot;city&quot;: &quot;Bremen&quot;,
-  &quot;phone&quot;: &quot;0421123456&quot;,
-  &quot;_links&quot;: {
-    &quot;self&quot;: {
-      &quot;href&quot;: &quot;http://localhost:8080/store/supplier/1&quot;
-    },
-    &quot;articles&quot;: {
-      &quot;href&quot;: &quot;http://localhost:8080/store/article/supplier/1&quot;
-    }
-  }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;sid&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Meier GmbH&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;street&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hauptstraße 10&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;postcode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;28209&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Bremen&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;phone&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0421123456&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;_links&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;self&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;href&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://localhost:8080/store/supplier/1&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;articles&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;href&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://localhost:8080/store/article/supplier/1&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="weitere-hateoas-moglichkeiten">Weitere HATEOAS-Möglichkeiten<a class="headerlink" href="#weitere-hateoas-moglichkeiten" title="Permanent link">&para;</a></h3>
 <p><strong>Erweitere die Links je nach Bedarf:</strong></p>
-<pre><code class="language-java">// Conditionelle Links (nur wenn Aktionen erlaubt sind)
-if (entity.getArticles().isEmpty()) {
-    dto.add(linkTo(methodOn(SupplierController.class).deleteSupplier(id)).withRel(&quot;delete&quot;));
-}
+<div class="highlight"><pre><span></span><code><span class="c1">// Conditionelle Links (nur wenn Aktionen erlaubt sind)</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">entity</span><span class="p">.</span><span class="na">getArticles</span><span class="p">().</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">dto</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">linkTo</span><span class="p">(</span><span class="n">methodOn</span><span class="p">(</span><span class="n">SupplierController</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">deleteSupplier</span><span class="p">(</span><span class="n">id</span><span class="p">)).</span><span class="na">withRel</span><span class="p">(</span><span class="s">&quot;delete&quot;</span><span class="p">));</span>
+<span class="p">}</span>
 
-// Link zum Aktualisieren
-dto.add(linkTo(methodOn(SupplierController.class).updateSupplier(id, null)).withRel(&quot;update&quot;));
+<span class="c1">// Link zum Aktualisieren</span>
+<span class="n">dto</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">linkTo</span><span class="p">(</span><span class="n">methodOn</span><span class="p">(</span><span class="n">SupplierController</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">updateSupplier</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">)).</span><span class="na">withRel</span><span class="p">(</span><span class="s">&quot;update&quot;</span><span class="p">));</span>
 
-// Link zu allen Suppliers
-dto.add(linkTo(methodOn(SupplierController.class).getAllSuppliers()).withRel(&quot;all-suppliers&quot;));
-</code></pre>
+<span class="c1">// Link zu allen Suppliers</span>
+<span class="n">dto</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">linkTo</span><span class="p">(</span><span class="n">methodOn</span><span class="p">(</span><span class="n">SupplierController</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">getAllSuppliers</span><span class="p">()).</span><span class="na">withRel</span><span class="p">(</span><span class="s">&quot;all-suppliers&quot;</span><span class="p">));</span>
+</code></pre></div>
 <hr />
 <h2 id="ressourcen">Ressourcen<a class="headerlink" href="#ressourcen" title="Permanent link">&para;</a></h2>
 <ul>

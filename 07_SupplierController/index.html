@@ -708,7 +708,7 @@
 </tbody>
 </table>
 <h3 id="beispiel-flow">Beispiel-Flow:<a class="headerlink" href="#beispiel-flow" title="Permanent link">&para;</a></h3>
-<pre><code>1. Client sendet POST /api/suppliers mit JSON
+<div class="highlight"><pre><span></span><code>1. Client sendet POST /api/suppliers mit JSON
                 ↓
 2. Controller empfängt AddSupplierDto
                 ↓
@@ -727,111 +727,111 @@
 9. Controller mappt Entity → GetSupplierDto
                 ↓
 10. Controller gibt HTTP 201 + JSON zurück
-</code></pre>
+</code></pre></div>
 <h2 id="supplierservice-implementieren">SupplierService implementieren<a class="headerlink" href="#supplierservice-implementieren" title="Permanent link">&para;</a></h2>
 <p>Um das <strong>Single Responsibility Principle</strong> einzuhalten, lagern wir die <strong>Business-Logik in einen Service</strong> aus. Der Service arbeitet ausschließlich mit Entities, nicht mit DTOs. </p>
 <p>Im Package <code>supplier</code> eine Klasse <code>SupplierService</code> anlegen (<code>@Service</code>) und das <code>SupplierRepository</code> via <strong>Konstruktor‑Injection</strong> einbinden (statt <code>@Autowired</code> – besser testbar und moderne Best Practice).</p>
-<pre><code class="language-java">@Service
-public class SupplierService {
+<div class="highlight"><pre><span></span><code><span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SupplierService</span><span class="w"> </span><span class="p">{</span>
 
-    private final SupplierRepository supplierRepository;
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">SupplierRepository</span><span class="w"> </span><span class="n">supplierRepository</span><span class="p">;</span>
 
-    // Konstruktor-Injection (empfohlen)
-    public SupplierService(SupplierRepository supplierRepository) {
-      ...
-    }
+<span class="w">    </span><span class="c1">// Konstruktor-Injection (empfohlen)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">SupplierService</span><span class="p">(</span><span class="n">SupplierRepository</span><span class="w"> </span><span class="n">supplierRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="p">...</span>
+<span class="w">    </span><span class="p">}</span>
 
-    // Service arbeitet NUR mit Entities
-    public SupplierEntity createSupplier(SupplierEntity supplier) {
-        // Hier könnte Business-Logik stehen, z.B.:
-        // - Prüfen, ob Name bereits existiert
-        // - Standard-Werte setzen
-        // - Audit-Felder befüllen
-        // - im Repository speichern
-        ...
-    }
+<span class="w">    </span><span class="c1">// Service arbeitet NUR mit Entities</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">SupplierEntity</span><span class="w"> </span><span class="nf">createSupplier</span><span class="p">(</span><span class="n">SupplierEntity</span><span class="w"> </span><span class="n">supplier</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Hier könnte Business-Logik stehen, z.B.:</span>
+<span class="w">        </span><span class="c1">// - Prüfen, ob Name bereits existiert</span>
+<span class="w">        </span><span class="c1">// - Standard-Werte setzen</span>
+<span class="w">        </span><span class="c1">// - Audit-Felder befüllen</span>
+<span class="w">        </span><span class="c1">// - im Repository speichern</span>
+<span class="w">        </span><span class="p">...</span>
+<span class="w">    </span><span class="p">}</span>
 
-    public SupplierEntity findById(Long id) {
-        ...
-    }
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">SupplierEntity</span><span class="w"> </span><span class="nf">findById</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">...</span>
+<span class="w">    </span><span class="p">}</span>
 
-    public List&lt;SupplierEntity&gt; findAll() {
-      ...
-    }
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">SupplierEntity</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findAll</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="p">...</span>
+<span class="w">    </span><span class="p">}</span>
 
-    public SupplierEntity updateSupplier(Long id, SupplierEntity updatedData) {
-        ...
-    }
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">SupplierEntity</span><span class="w"> </span><span class="nf">updateSupplier</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">SupplierEntity</span><span class="w"> </span><span class="n">updatedData</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">...</span>
+<span class="w">    </span><span class="p">}</span>
 
-    public void deleteSupplier(Long id) {
-        ....
-    }
-}
-</code></pre>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">deleteSupplier</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">....</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <p><strong>Wichtig:</strong> Der Service ist für Repository‑Zugriffe und Business-Logik verantwortlich. Er arbeitet ausschließlich mit <strong>Entities</strong>, kennt keine DTOs und ist damit unabhängig von der Präsentationsschicht. Später übernimmt er auch komplexere Validierungen und wirft passende Exceptions.</p>
 <h2 id="controller-implementierung">Controller-Implementierung<a class="headerlink" href="#controller-implementierung" title="Permanent link">&para;</a></h2>
 <h3 id="dtovalidierung-im-controller">DTO‑Validierung im Controller<a class="headerlink" href="#dtovalidierung-im-controller" title="Permanent link">&para;</a></h3>
 <p>Neu ist die Annotation <code>@Valid</code> an Parameter‑DTOs im Controller (z. B. <code>AddSupplierDto</code>). Spring Boot validiert damit automatisch anhand der Bean‑Validation‑Annotationen im DTO (<code>@NotBlank</code>, <code>@Size</code>, etc.). Bei Validierungsfehlern wirft Spring automatisch eine <code>MethodArgumentNotValidException</code>.</p>
 <h3 id="beispiel-controller-mit-klarer-aufgabentrennung">Beispiel-Controller mit klarer Aufgabentrennung<a class="headerlink" href="#beispiel-controller-mit-klarer-aufgabentrennung" title="Permanent link">&para;</a></h3>
-<pre><code class="language-java">@RestController
-@RequestMapping(&quot;/store/suppliers&quot;)
-public class SupplierController {
+<div class="highlight"><pre><span></span><code><span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="p">(</span><span class="s">&quot;/store/suppliers&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SupplierController</span><span class="w"> </span><span class="p">{</span>
 
 
-    @PostMapping
-    // Response-Status 201 bei erfolgreichem Anlegen
-    @ResponseStatus(code = org.springframework.http.HttpStatus.CREATED)
-    public GetSupplierSimpleDTO create(@Valid @RequestBody final AddSupplierDTO dto) {
-        // 1. DTO → Entity
-        var addDtoEntity = AddSupplierDTO.toEntity(dto);
-        // 2. Service aufrufen (Business-Logik)
-        var savedEntity = this.supplierService.save(addDtoEntity);
-        // 3. Entity → DTO
-        return GetSupplierSimpleDTO.toDTO(savedEntity);
-    }
+<span class="w">    </span><span class="nd">@PostMapping</span>
+<span class="w">    </span><span class="c1">// Response-Status 201 bei erfolgreichem Anlegen</span>
+<span class="w">    </span><span class="nd">@ResponseStatus</span><span class="p">(</span><span class="n">code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">org</span><span class="p">.</span><span class="na">springframework</span><span class="p">.</span><span class="na">http</span><span class="p">.</span><span class="na">HttpStatus</span><span class="p">.</span><span class="na">CREATED</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">GetSupplierSimpleDTO</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="nd">@Valid</span><span class="w"> </span><span class="nd">@RequestBody</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">AddSupplierDTO</span><span class="w"> </span><span class="n">dto</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 1. DTO → Entity</span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="n">addDtoEntity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AddSupplierDTO</span><span class="p">.</span><span class="na">toEntity</span><span class="p">(</span><span class="n">dto</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// 2. Service aufrufen (Business-Logik)</span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="n">savedEntity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">supplierService</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">addDtoEntity</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// 3. Entity → DTO</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">GetSupplierSimpleDTO</span><span class="p">.</span><span class="na">toDTO</span><span class="p">(</span><span class="n">savedEntity</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 
-    @GetMapping(&quot;{id}&quot;)
-    public GetSupplierSimpleDTO get(@PathVariable Long id) {
-        var entity = this.supplierService.readById(id);
-        return GetSupplierSimpleDTO.toDTO(entity);
-    }
+<span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;{id}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">GetSupplierSimpleDTO</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="n">entity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">supplierService</span><span class="p">.</span><span class="na">readById</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">GetSupplierSimpleDTO</span><span class="p">.</span><span class="na">toDTO</span><span class="p">(</span><span class="n">entity</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 
-    @GetMapping
-    public List&lt;GetSupplierSimpleDTO&gt; getAll() {
-        var entities =  this.supplierService.findAll();
-        return entities.stream().map(GetSupplierSimpleDTO::toDTO).toList();
-    }
+<span class="w">    </span><span class="nd">@GetMapping</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">GetSupplierSimpleDTO</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getAll</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="n">entities</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="na">supplierService</span><span class="p">.</span><span class="na">findAll</span><span class="p">();</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">entities</span><span class="p">.</span><span class="na">stream</span><span class="p">().</span><span class="na">map</span><span class="p">(</span><span class="n">GetSupplierSimpleDTO</span><span class="p">::</span><span class="n">toDTO</span><span class="p">).</span><span class="na">toList</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
 
 
-    @PutMapping(&quot;/{id}&quot;)
-    ...
+<span class="w">    </span><span class="nd">@PutMapping</span><span class="p">(</span><span class="s">&quot;/{id}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">...</span>
 
-    @DeleteMapping(&quot;/{id}&quot;)
-    ...
-}
-</code></pre>
+<span class="w">    </span><span class="nd">@DeleteMapping</span><span class="p">(</span><span class="s">&quot;/{id}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div>
 <p><strong>Beachte:</strong> Der Controller ist "dünn" – er orchestriert nur, mappt DTOs und baut HTTP-Responses. Die gesamte Business-Logik steckt im Service.</p>
 <p>Der Code enthält einige Änderungen bezüglich der letzten Tutorials. Neu ist die Annotation <code>@Valid</code> des Parameters <code>addSupplierDto</code> in der Post-Methode. Sie bewirkt, dass Spring Boot das übergebene Objekt hinsichtlich der Annotationen in der DTO-Klasse validiert. Da dessen Daten nicht mehr geändert werden, wurde es mit dem Schlüsselwort final gekennzeichnet. Das validierte DTO wird in ein Business-Objekt vom Typ SupplierEntity umgewandelt. Es referenziert im Attribut contact seine Kontaktdaten. Im nächsten Schritt wird der Supplier-Service damit beauftragt, das Objekt zu speichern. Beachte dabei, dass über den CascadeType <code>ALL</code> in der Modellklasse <code>Supplier</code> das Contact-Object automatisch in der Datenbank gespeichert wird, ohne ein Contact-Repository benutzen zu müssen. Der Supplier-Service gibt das gespeicherte Objekt zurück, das der Controller wieder in ein DTO-Objekt verwandelt und dem Client im JSON-Format zurückgibt. </p>
 <h2 id="aufgabe">Aufgabe<a class="headerlink" href="#aufgabe" title="Permanent link">&para;</a></h2>
 <p>Implementiere die Endpunkte zum <strong>Anlegen</strong>, <strong>Lesen (alle/ID)</strong>, <strong>Aktualisieren</strong>, <strong>Löschen</strong> eines Lieferanten sowie einen Endpunkt „<strong>alle Artikel eines Lieferanten</strong>“.</p>
 <p>Teste die Endpunkte mit dem HTTP-Client von IntelliJ:</p>
-<pre><code class="language-HTTP">### Lieferant anlegen
-POST localhost:8080/suppliers
-Content-Type: application/json
+<div class="highlight"><pre><span></span><code><span class="err">### Lieferant anlegen</span>
+<span class="err">POST localhost:8080/suppliers</span>
+<span class="err">Content-Type: application/json</span>
 
-{
-  &quot;name&quot;: &quot;Kerstin's Supplies&quot;,
-  &quot;city&quot;: &quot;Bremen&quot;,
-  &quot;postcode&quot;: &quot;22345&quot;,
-  &quot;street&quot;: &quot;Bahnhofsstrasse 1&quot;,
-  &quot;phone&quot;: &quot;01209380192&quot;
-}
+<span class="err">{</span>
+<span class="err">  &quot;name&quot;: &quot;Kerstin&#39;s Supplies&quot;,</span>
+<span class="err">  &quot;city&quot;: &quot;Bremen&quot;,</span>
+<span class="err">  &quot;postcode&quot;: &quot;22345&quot;,</span>
+<span class="err">  &quot;street&quot;: &quot;Bahnhofsstrasse 1&quot;,</span>
+<span class="err">  &quot;phone&quot;: &quot;01209380192&quot;</span>
+<span class="err">}</span>
 
-### Alle Lieferanten lesen
-GET localhost:8080/suppliers
+<span class="err">### Alle Lieferanten lesen</span>
+<span class="err">GET localhost:8080/suppliers</span>
 
-### ....
-</code></pre>
+<span class="err">### ....</span>
+</code></pre></div>
 
 
 

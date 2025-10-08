@@ -531,7 +531,7 @@ Benötigte Abhängigkeiten: <strong>Spring Web</strong>, <strong>Spring Data JPA
 <p>Erstelle im Hauptverzeichnis deines Projekts (auf Root-Ebene) die Datei <strong><code>compose.yml</code></strong>.</p>
 <p>In der Regel bilden mehrere Docker‑Container eine Anwendung. <strong>Docker Compose</strong> dient dazu, mehrere Images zu konfigurieren und hintereinander zu starten (anstatt jeden Container einzeln). In unserem Fall benötigen wir <strong>nur einen</strong> Container: die PostgreSQL‑Datenbank.</p>
 <p>Kopiere den unten abgebildeten Code in dein Compose‑File:</p>
-<pre><code class="language-yml">volumes:
+<div class="highlight"><pre><span></span><code>volumes:
   store_postgres_data:
     driver: local
 
@@ -547,7 +547,7 @@ services:
       POSTGRES_PASSWORD: secret
     ports:
       - &quot;5432:5432&quot;
-</code></pre>
+</code></pre></div>
 <p><strong>Erläuterungen:</strong>
 - Unter <code>services</code> werden Container erstellt/konfiguriert. Unser Container heißt <code>store_postgres_container</code> und basiert auf <code>postgres:16</code> (Download aus <strong>Docker Hub</strong>).
 - Unter <code>environment</code> setzen wir DB‑Name, Benutzer und Passwort innerhalb des Containers.

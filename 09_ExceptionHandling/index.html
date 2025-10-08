@@ -819,21 +819,21 @@
 <h2 id="warum-brauchen-wir-exception-handling">Warum brauchen wir Exception-Handling?<a class="headerlink" href="#warum-brauchen-wir-exception-handling" title="Permanent link">&para;</a></h2>
 <h3 id="das-problem-spring-boots-standard-fehlerantworten">Das Problem: Spring Boots Standard-Fehlerantworten<a class="headerlink" href="#das-problem-spring-boots-standard-fehlerantworten" title="Permanent link">&para;</a></h3>
 <p>Beim Ausführen eines fehlerhaften Requests (z.B. POST mit ungültigen Daten oder GET mit nicht existierender ID) liefert Spring Boot standardmäßig eine sehr <strong>generische</strong> Fehlerantwort wie diese:</p>
-<pre><code class="language-json">{
-  &quot;timestamp&quot;: &quot;2025-10-08T11:58:08.139+00:00&quot;,
-  &quot;status&quot;: 500,
-  &quot;error&quot;: &quot;Internal Server Error&quot;,
-  &quot;path&quot;: &quot;/store/supplier&quot;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-10-08T11:58:08.139+00:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Internal Server Error&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/store/supplier&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
 <p>Oder bei Validierungsfehlern manchmal auch:</p>
-<pre><code class="language-json">{
-  &quot;timestamp&quot;: &quot;2025-10-08T11:58:08.139+00:00&quot;,
-  &quot;status&quot;: 400,
-  &quot;error&quot;: &quot;Bad Request&quot;,
-  &quot;path&quot;: &quot;/store/supplier&quot;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-10-08T11:58:08.139+00:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Bad Request&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/store/supplier&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
 <p><strong>Probleme dieser Standard-Antworten:</strong></p>
 <ol>
 <li>❌ <strong>Keine konkrete Fehlermeldung</strong>: Was genau ist schiefgelaufen? Welches Feld fehlt?</li>
@@ -856,19 +856,19 @@
 <h2 id="schritt-1-eigene-exception-fur-nicht-gefunden">Schritt 1: Eigene Exception für "Nicht gefunden"<a class="headerlink" href="#schritt-1-eigene-exception-fur-nicht-gefunden" title="Permanent link">&para;</a></h2>
 <h3 id="aufgabe">Aufgabe<a class="headerlink" href="#aufgabe" title="Permanent link">&para;</a></h3>
 <p>Erstelle im Package <code>exceptionhandling</code> die Klasse <code>ResourceNotFoundException</code>:</p>
-<pre><code class="language-java">package de.szut.store.exceptionhandling;
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">de.szut.store.exceptionhandling</span><span class="p">;</span>
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.http.HttpStatus</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.ResponseStatus</span><span class="p">;</span>
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class ResourceNotFoundException extends RuntimeException {
+<span class="nd">@ResponseStatus</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">.</span><span class="na">NOT_FOUND</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ResourceNotFoundException</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">RuntimeException</span><span class="w"> </span><span class="p">{</span>
 
-    public ResourceNotFoundException(String message) {
-        super(message);
-    }
-}
-</code></pre>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">ResourceNotFoundException</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">super</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="erklarung">Erklärung<a class="headerlink" href="#erklarung" title="Permanent link">&para;</a></h3>
 <p><strong>Warum von <code>RuntimeException</code> erben?</strong>
 - RuntimeExceptions sind <strong>unchecked</strong> – Methoden müssen nicht mit <code>throws</code> deklariert werden
@@ -881,20 +881,20 @@ public class ResourceNotFoundException extends RuntimeException {
 <h2 id="schritt-2-einheitliche-fehlerstruktur-definieren">Schritt 2: Einheitliche Fehlerstruktur definieren<a class="headerlink" href="#schritt-2-einheitliche-fehlerstruktur-definieren" title="Permanent link">&para;</a></h2>
 <h3 id="aufgabe_1">Aufgabe<a class="headerlink" href="#aufgabe_1" title="Permanent link">&para;</a></h3>
 <p>Erstelle im Package <code>exceptionhandling</code> die Klasse <code>ErrorDetails</code>:</p>
-<pre><code class="language-java">package de.szut.store.exceptionhandling;
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">de.szut.store.exceptionhandling</span><span class="p">;</span>
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import java.time.LocalDateTime;
+<span class="kn">import</span><span class="w"> </span><span class="nn">lombok.AllArgsConstructor</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">lombok.Data</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.time.LocalDateTime</span><span class="p">;</span>
 
-@Data
-@AllArgsConstructor
-public class ErrorDetails {
-    private LocalDateTime timestamp;  // Zeitpunkt des Fehlers
-    private String message;            // Benutzerfreundliche Fehlermeldung
-    private String details;            // Zusatzinfos (z.B. URI-Pfad)
-}
-</code></pre>
+<span class="nd">@Data</span>
+<span class="nd">@AllArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ErrorDetails</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="w"> </span><span class="n">timestamp</span><span class="p">;</span><span class="w">  </span><span class="c1">// Zeitpunkt des Fehlers</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="p">;</span><span class="w">            </span><span class="c1">// Benutzerfreundliche Fehlermeldung</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">details</span><span class="p">;</span><span class="w">            </span><span class="c1">// Zusatzinfos (z.B. URI-Pfad)</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="erklarung_1">Erklärung<a class="headerlink" href="#erklarung_1" title="Permanent link">&para;</a></h3>
 <p>Diese Klasse definiert die <strong>einheitliche Struktur</strong> für alle Fehlerantworten:</p>
 <ul>
@@ -907,102 +907,102 @@ public class ErrorDetails {
 <h2 id="schritt-3-zentraler-exception-handler">Schritt 3: Zentraler Exception-Handler<a class="headerlink" href="#schritt-3-zentraler-exception-handler" title="Permanent link">&para;</a></h2>
 <h3 id="aufgabe_2">Aufgabe<a class="headerlink" href="#aufgabe_2" title="Permanent link">&para;</a></h3>
 <p>Erstelle im Package <code>exceptionhandling</code> die Klasse <code>GlobalExceptionHandler</code>:</p>
-<pre><code class="language-java">package de.szut.store.exceptionhandling;
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">de.szut.store.exceptionhandling</span><span class="p">;</span>
 
-import jakarta.validation.ConstraintViolationException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.validation.ConstraintViolationException</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.http.HttpStatus</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.http.ResponseEntity</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.MethodArgumentNotValidException</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.ControllerAdvice</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.ExceptionHandler</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.context.request.WebRequest</span><span class="p">;</span>
 
-import java.time.LocalDateTime;
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.time.LocalDateTime</span><span class="p">;</span>
 
-@ControllerAdvice
-public class GlobalExceptionHandler {
+<span class="nd">@ControllerAdvice</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GlobalExceptionHandler</span><span class="w"> </span><span class="p">{</span>
 
-    /**
-     * Behandelt ResourceNotFoundException (404 - Not Found)
-     * Wird geworfen, wenn eine angeforderte Ressource nicht existiert
-     */
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity&lt;ErrorDetails&gt; handleResourceNotFound(
-            ResourceNotFoundException ex, 
-            WebRequest request) {
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * Behandelt ResourceNotFoundException (404 - Not Found)</span>
+<span class="cm">     * Wird geworfen, wenn eine angeforderte Ressource nicht existiert</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="nd">@ExceptionHandler</span><span class="p">(</span><span class="n">ResourceNotFoundException</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">ErrorDetails</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">handleResourceNotFound</span><span class="p">(</span>
+<span class="w">            </span><span class="n">ResourceNotFoundException</span><span class="w"> </span><span class="n">ex</span><span class="p">,</span><span class="w"> </span>
+<span class="w">            </span><span class="n">WebRequest</span><span class="w"> </span><span class="n">request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 
-        ErrorDetails error = new ErrorDetails(
-            LocalDateTime.now(),
-            ex.getMessage(),
-            request.getDescription(false)
-        );
-        return new ResponseEntity&lt;&gt;(error, HttpStatus.NOT_FOUND);
-    }
+<span class="w">        </span><span class="n">ErrorDetails</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ErrorDetails</span><span class="p">(</span>
+<span class="w">            </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">(),</span>
+<span class="w">            </span><span class="n">ex</span><span class="p">.</span><span class="na">getMessage</span><span class="p">(),</span>
+<span class="w">            </span><span class="n">request</span><span class="p">.</span><span class="na">getDescription</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+<span class="w">        </span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">error</span><span class="p">,</span><span class="w"> </span><span class="n">HttpStatus</span><span class="p">.</span><span class="na">NOT_FOUND</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 
-    /**
-     * Behandelt MethodArgumentNotValidException (400 - Bad Request)
-     * Wird von @Valid automatisch geworfen, wenn DTO-Validierung fehlschlägt
-     */
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity&lt;ErrorDetails&gt; handleValidation(
-            MethodArgumentNotValidException ex, 
-            WebRequest request) {
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * Behandelt MethodArgumentNotValidException (400 - Bad Request)</span>
+<span class="cm">     * Wird von @Valid automatisch geworfen, wenn DTO-Validierung fehlschlägt</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="nd">@ExceptionHandler</span><span class="p">(</span><span class="n">MethodArgumentNotValidException</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">ErrorDetails</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">handleValidation</span><span class="p">(</span>
+<span class="w">            </span><span class="n">MethodArgumentNotValidException</span><span class="w"> </span><span class="n">ex</span><span class="p">,</span><span class="w"> </span>
+<span class="w">            </span><span class="n">WebRequest</span><span class="w"> </span><span class="n">request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 
-        // Extrahiere die erste Fehlermeldung aus den Validierungs-Errors
-        String message = ex.getBindingResult()
-            .getFieldErrors()
-            .get(0)
-            .getDefaultMessage();
+<span class="w">        </span><span class="c1">// Extrahiere die erste Fehlermeldung aus den Validierungs-Errors</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ex</span><span class="p">.</span><span class="na">getBindingResult</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">getFieldErrors</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">getDefaultMessage</span><span class="p">();</span>
 
-        ErrorDetails error = new ErrorDetails(
-            LocalDateTime.now(),
-            message,
-            request.getDescription(false)
-        );
-        return new ResponseEntity&lt;&gt;(error, HttpStatus.BAD_REQUEST);
-    }
+<span class="w">        </span><span class="n">ErrorDetails</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ErrorDetails</span><span class="p">(</span>
+<span class="w">            </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">(),</span>
+<span class="w">            </span><span class="n">message</span><span class="p">,</span>
+<span class="w">            </span><span class="n">request</span><span class="p">.</span><span class="na">getDescription</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+<span class="w">        </span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">error</span><span class="p">,</span><span class="w"> </span><span class="n">HttpStatus</span><span class="p">.</span><span class="na">BAD_REQUEST</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 
-    /**
-     * Behandelt ConstraintViolationException (400 - Bad Request)
-     * Wird geworfen, wenn Bean-Validation-Constraints verletzt werden
-     */
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity&lt;ErrorDetails&gt; handleConstraintViolation(
-            ConstraintViolationException ex, 
-            WebRequest request) {
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * Behandelt ConstraintViolationException (400 - Bad Request)</span>
+<span class="cm">     * Wird geworfen, wenn Bean-Validation-Constraints verletzt werden</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="nd">@ExceptionHandler</span><span class="p">(</span><span class="n">ConstraintViolationException</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">ErrorDetails</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">handleConstraintViolation</span><span class="p">(</span>
+<span class="w">            </span><span class="n">ConstraintViolationException</span><span class="w"> </span><span class="n">ex</span><span class="p">,</span><span class="w"> </span>
+<span class="w">            </span><span class="n">WebRequest</span><span class="w"> </span><span class="n">request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 
-        // Extrahiere die erste Constraint-Verletzungs-Nachricht
-        String message = ex.getConstraintViolations()
-            .iterator()
-            .next()
-            .getMessage();
+<span class="w">        </span><span class="c1">// Extrahiere die erste Constraint-Verletzungs-Nachricht</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ex</span><span class="p">.</span><span class="na">getConstraintViolations</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">iterator</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">next</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">getMessage</span><span class="p">();</span>
 
-        ErrorDetails error = new ErrorDetails(
-            LocalDateTime.now(),
-            message,
-            request.getDescription(false)
-        );
-        return new ResponseEntity&lt;&gt;(error, HttpStatus.BAD_REQUEST);
-    }
+<span class="w">        </span><span class="n">ErrorDetails</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ErrorDetails</span><span class="p">(</span>
+<span class="w">            </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">(),</span>
+<span class="w">            </span><span class="n">message</span><span class="p">,</span>
+<span class="w">            </span><span class="n">request</span><span class="p">.</span><span class="na">getDescription</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+<span class="w">        </span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">error</span><span class="p">,</span><span class="w"> </span><span class="n">HttpStatus</span><span class="p">.</span><span class="na">BAD_REQUEST</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 
-    /**
-     * Behandelt alle anderen Exceptions (500 - Internal Server Error)
-     * Fallback für unerwartete Fehler
-     */
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity&lt;ErrorDetails&gt; handleGlobalException(
-            Exception ex, 
-            WebRequest request) {
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * Behandelt alle anderen Exceptions (500 - Internal Server Error)</span>
+<span class="cm">     * Fallback für unerwartete Fehler</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="nd">@ExceptionHandler</span><span class="p">(</span><span class="n">Exception</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">ErrorDetails</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">handleGlobalException</span><span class="p">(</span>
+<span class="w">            </span><span class="n">Exception</span><span class="w"> </span><span class="n">ex</span><span class="p">,</span><span class="w"> </span>
+<span class="w">            </span><span class="n">WebRequest</span><span class="w"> </span><span class="n">request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 
-        ErrorDetails error = new ErrorDetails(
-            LocalDateTime.now(),
-            &quot;Internal server error&quot;,
-            request.getDescription(false)
-        );
-        return new ResponseEntity&lt;&gt;(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-}
-</code></pre>
+<span class="w">        </span><span class="n">ErrorDetails</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ErrorDetails</span><span class="p">(</span>
+<span class="w">            </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">(),</span>
+<span class="w">            </span><span class="s">&quot;Internal server error&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="n">request</span><span class="p">.</span><span class="na">getDescription</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+<span class="w">        </span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">error</span><span class="p">,</span><span class="w"> </span><span class="n">HttpStatus</span><span class="p">.</span><span class="na">INTERNAL_SERVER_ERROR</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="erklarung-wie-funktioniert-das">Erklärung: Wie funktioniert das?<a class="headerlink" href="#erklarung-wie-funktioniert-das" title="Permanent link">&para;</a></h3>
 <h4 id="controlleradvice"><code>@ControllerAdvice</code><a class="headerlink" href="#controlleradvice" title="Permanent link">&para;</a></h4>
 <p>Diese Annotation macht die Klasse zu einem <strong>globalen Controller-Berater</strong>:
@@ -1015,7 +1015,7 @@ public class GlobalExceptionHandler {
 - Wird automatisch die annotierte Methode aufgerufen
 - Die Methode baut eine passende HTTP-Response</p>
 <h4 id="handler-flow-am-beispiel-resourcenotfoundexception">Handler-Flow am Beispiel <code>ResourceNotFoundException</code>:<a class="headerlink" href="#handler-flow-am-beispiel-resourcenotfoundexception" title="Permanent link">&para;</a></h4>
-<pre><code>1. Service wirft: throw new ResourceNotFoundException(&quot;Supplier not found&quot;)
+<div class="highlight"><pre><span></span><code>1. Service wirft: throw new ResourceNotFoundException(&quot;Supplier not found&quot;)
                             ↓
 2. Spring fängt Exception ab
                             ↓
@@ -1030,103 +1030,103 @@ public class GlobalExceptionHandler {
 7. Spring serialisiert ErrorDetails zu JSON
                             ↓
 8. Client erhält einheitliche Fehlerantwort
-</code></pre>
+</code></pre></div>
 <hr />
 <h2 id="schritt-4-exception-im-service-verwenden">Schritt 4: Exception im Service verwenden<a class="headerlink" href="#schritt-4-exception-im-service-verwenden" title="Permanent link">&para;</a></h2>
 <h3 id="aufgabe_3">Aufgabe<a class="headerlink" href="#aufgabe_3" title="Permanent link">&para;</a></h3>
 <p>Passe die Methode <code>findById()</code> im <code>SupplierService</code> an:</p>
-<pre><code class="language-java">@Service
-public class SupplierService {
+<div class="highlight"><pre><span></span><code><span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SupplierService</span><span class="w"> </span><span class="p">{</span>
 
-    private final SupplierRepository supplierRepository;
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">SupplierRepository</span><span class="w"> </span><span class="n">supplierRepository</span><span class="p">;</span>
 
-    public SupplierService(SupplierRepository supplierRepository) {
-        this.supplierRepository = supplierRepository;
-    }
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">SupplierService</span><span class="p">(</span><span class="n">SupplierRepository</span><span class="w"> </span><span class="n">supplierRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">supplierRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">supplierRepository</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
 
-    public SupplierEntity findById(Long id) {
-        return supplierRepository.findById(id)
-            .orElseThrow(() -&gt; new ResourceNotFoundException(
-                &quot;Supplier not found on Id = &quot; + id));
-    }
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">SupplierEntity</span><span class="w"> </span><span class="nf">findById</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">supplierRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">orElseThrow</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ResourceNotFoundException</span><span class="p">(</span>
+<span class="w">                </span><span class="s">&quot;Supplier not found on Id = &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">id</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
 
-    // ... weitere Methoden
-}
-</code></pre>
+<span class="w">    </span><span class="c1">// ... weitere Methoden</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="testen">Testen<a class="headerlink" href="#testen" title="Permanent link">&para;</a></h3>
-<p><strong>Test-Request:</strong></p>
-<pre><code class="language-http">GET http://localhost:8080/store/supplier/999
-</code></pre>
-<p><strong>Erwartete Antwort (Status 404):</strong></p>
-<pre><code class="language-json">{
-  &quot;timestamp&quot;: &quot;2025-10-08T14:23:11.770&quot;,
-  &quot;message&quot;: &quot;Supplier not found on Id = 999&quot;,
-  &quot;details&quot;: &quot;uri=/store/supplier/999&quot;
-}
-</code></pre>
+<p><strong>Test-Request:</strong>
+<div class="highlight"><pre><span></span><code><span class="err">GET http://localhost:8080/store/supplier/999</span>
+</code></pre></div></p>
+<p><strong>Erwartete Antwort (Status 404):</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-10-08T14:23:11.770&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Supplier not found on Id = 999&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uri=/store/supplier/999&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
 <p>✅ <strong>Viel besser!</strong> Klare Fehlermeldung, korrekte Statuscode, einheitliche Struktur.</p>
 <hr />
 <h2 id="testen-die-verschiedenen-fehlertypen">Testen: Die verschiedenen Fehlertypen<a class="headerlink" href="#testen-die-verschiedenen-fehlertypen" title="Permanent link">&para;</a></h2>
 <p>Jetzt können wir die verschiedenen Exception-Handler testen:</p>
 <h3 id="test-1-resourcenotfoundexception-404-not-found">Test 1: ResourceNotFoundException (404 Not Found)<a class="headerlink" href="#test-1-resourcenotfoundexception-404-not-found" title="Permanent link">&para;</a></h3>
-<p><strong>Test-Request (nicht existierende ID):</strong></p>
-<pre><code class="language-http">GET http://localhost:8080/store/supplier/999
-</code></pre>
-<p><strong>Erwartete Antwort:</strong></p>
-<pre><code class="language-json">{
-  &quot;timestamp&quot;: &quot;2025-10-08T14:23:11.770&quot;,
-  &quot;message&quot;: &quot;Supplier not found on Id = 999&quot;,
-  &quot;details&quot;: &quot;uri=/store/supplier/999&quot;
-}
-</code></pre>
+<p><strong>Test-Request (nicht existierende ID):</strong>
+<div class="highlight"><pre><span></span><code><span class="err">GET http://localhost:8080/store/supplier/999</span>
+</code></pre></div></p>
+<p><strong>Erwartete Antwort:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-10-08T14:23:11.770&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Supplier not found on Id = 999&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uri=/store/supplier/999&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
 <p>✅ Status 404, klare Fehlermeldung!</p>
 <hr />
 <h3 id="test-2-methodargumentnotvalidexception-400-bad-request">Test 2: MethodArgumentNotValidException (400 Bad Request)<a class="headerlink" href="#test-2-methodargumentnotvalidexception-400-bad-request" title="Permanent link">&para;</a></h3>
-<p><strong>Test-Request (fehlender Name):</strong></p>
-<pre><code class="language-http">POST http://localhost:8080/store/supplier
-Content-Type: application/json
+<p><strong>Test-Request (fehlender Name):</strong>
+<div class="highlight"><pre><span></span><code><span class="err">POST http://localhost:8080/store/supplier</span>
+<span class="err">Content-Type: application/json</span>
 
-{
-  &quot;street&quot;: &quot;Hauptstraße 1&quot;,
-  &quot;postcode&quot;: &quot;28209&quot;,
-  &quot;city&quot;: &quot;Bremen&quot;,
-  &quot;phone&quot;: &quot;0421123456&quot;
-}
-</code></pre>
-<p><strong>Erwartete Antwort:</strong></p>
-<pre><code class="language-json">{
-  &quot;timestamp&quot;: &quot;2025-10-08T14:25:33.123&quot;,
-  &quot;message&quot;: &quot;Name is mandatory&quot;,
-  &quot;details&quot;: &quot;uri=/store/supplier&quot;
-}
-</code></pre>
+<span class="err">{</span>
+<span class="err">  &quot;street&quot;: &quot;Hauptstraße 1&quot;,</span>
+<span class="err">  &quot;postcode&quot;: &quot;28209&quot;,</span>
+<span class="err">  &quot;city&quot;: &quot;Bremen&quot;,</span>
+<span class="err">  &quot;phone&quot;: &quot;0421123456&quot;</span>
+<span class="err">}</span>
+</code></pre></div></p>
+<p><strong>Erwartete Antwort:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-10-08T14:25:33.123&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Name is mandatory&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uri=/store/supplier&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
 <p>✅ Nur die relevante Fehlermeldung aus der <code>@NotBlank(message = "...")</code>-Annotation!</p>
 <p><strong>Wichtig:</strong> Die Handler für <code>MethodArgumentNotValidException</code> und <code>ConstraintViolationException</code> extrahieren automatisch die <strong>benutzerdefinierten Fehlermeldungen</strong> aus den Validierungs-Annotationen im DTO:</p>
-<pre><code class="language-java">// Im AddSupplierDto:
-@NotBlank(message = &quot;Name is mandatory&quot;)  // ← Diese Message wird verwendet
-private String name;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c1">// Im AddSupplierDto:</span>
+<span class="nd">@NotBlank</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Name is mandatory&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">// ← Diese Message wird verwendet</span>
+<span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+</code></pre></div>
 <hr />
 <h3 id="test-3-constraintviolationexception-400-bad-request">Test 3: ConstraintViolationException (400 Bad Request)<a class="headerlink" href="#test-3-constraintviolationexception-400-bad-request" title="Permanent link">&para;</a></h3>
-<p><strong>Test-Request (ungültige Postleitzahl):</strong></p>
-<pre><code class="language-http">POST http://localhost:8080/store/supplier
-Content-Type: application/json
+<p><strong>Test-Request (ungültige Postleitzahl):</strong>
+<div class="highlight"><pre><span></span><code><span class="err">POST http://localhost:8080/store/supplier</span>
+<span class="err">Content-Type: application/json</span>
 
-{
-  &quot;name&quot;: &quot;Test Supplier&quot;,
-  &quot;street&quot;: &quot;Hauptstraße 1&quot;,
-  &quot;postcode&quot;: &quot;123456789&quot;,
-  &quot;city&quot;: &quot;Bremen&quot;,
-  &quot;phone&quot;: &quot;0421123456&quot;
-}
-</code></pre>
-<p><strong>Erwartete Antwort:</strong></p>
-<pre><code class="language-json">{
-  &quot;timestamp&quot;: &quot;2025-10-08T14:27:15.456&quot;,
-  &quot;message&quot;: &quot;Postcode must be 5 characters&quot;,
-  &quot;details&quot;: &quot;uri=/store/supplier&quot;
-}
-</code></pre>
+<span class="err">{</span>
+<span class="err">  &quot;name&quot;: &quot;Test Supplier&quot;,</span>
+<span class="err">  &quot;street&quot;: &quot;Hauptstraße 1&quot;,</span>
+<span class="err">  &quot;postcode&quot;: &quot;123456789&quot;,</span>
+<span class="err">  &quot;city&quot;: &quot;Bremen&quot;,</span>
+<span class="err">  &quot;phone&quot;: &quot;0421123456&quot;</span>
+<span class="err">}</span>
+</code></pre></div></p>
+<p><strong>Erwartete Antwort:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-10-08T14:27:15.456&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Postcode must be 5 characters&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uri=/store/supplier&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
 <p>✅ Auch hier wird die Message aus der <code>@Size</code>-Annotation verwendet!</p>
 <hr />
 <h2 id="ubersicht-welcher-handler-fur-welchen-fehler">Übersicht: Welcher Handler für welchen Fehler?<a class="headerlink" href="#ubersicht-welcher-handler-fur-welchen-fehler" title="Permanent link">&para;</a></h2>
@@ -1224,18 +1224,18 @@ Content-Type: application/json
 </table>
 <h3 id="alternative-controller-basiertes-exception-handling">Alternative: Controller-basiertes Exception-Handling<a class="headerlink" href="#alternative-controller-basiertes-exception-handling" title="Permanent link">&para;</a></h3>
 <p>Manche Teams bevorzugen Exception-Handling <strong>pro Controller</strong>:</p>
-<pre><code class="language-java">@RestController
-@RequestMapping(&quot;/store/supplier&quot;)
-public class SupplierController {
+<div class="highlight"><pre><span></span><code><span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="p">(</span><span class="s">&quot;/store/supplier&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SupplierController</span><span class="w"> </span><span class="p">{</span>
 
-    // ... Controller-Methoden
+<span class="w">    </span><span class="c1">// ... Controller-Methoden</span>
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity&lt;ErrorDetails&gt; handleNotFound(ResourceNotFoundException ex) {
-        // Nur für diesen Controller
-    }
-}
-</code></pre>
+<span class="w">    </span><span class="nd">@ExceptionHandler</span><span class="p">(</span><span class="n">ResourceNotFoundException</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">ErrorDetails</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">handleNotFound</span><span class="p">(</span><span class="n">ResourceNotFoundException</span><span class="w"> </span><span class="n">ex</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Nur für diesen Controller</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <p><strong>Vorteil:</strong> Entwickler sieht sofort, welche Exceptions der Controller werfen kann<br />
 <strong>Nachteil:</strong> Code-Duplizierung in jedem Controller</p>
 <hr />

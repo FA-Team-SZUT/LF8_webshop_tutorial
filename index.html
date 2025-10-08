@@ -543,38 +543,34 @@
 - <strong>Integrationstests</strong> (Testcontainers)
 - Zentrales <strong>Exception‑Handling</strong>
 - Erweiterungen (z. B. HATEOAS)</p>
-<pre><code class="language-plantuml">@startuml
-skinparam classAttributeIconSize 0
+<pre class="mermaid"><code>classDiagram
+    class Supplier {
+        - id: Long
+        - name: String
+        - contact: Contact
+        - articles: Set&lt;Article&gt;
+    }
 
-class Supplier {
-  - id: Long
-  - name: String
-  - contact: Contact
-  - articles: Set&lt;Article&gt;
-}
+    class Contact {
+        - id: Long
+        - street: String
+        - postcode: String
+        - city: String
+        - phone: String
+        - supplier: Supplier
+    }
 
-class Contact {
-  - id: Long
-  - street: String
-  - postcode: String
-  - city: String
-  - phone: String
-  - supplier: Supplier
-}
+    class Article {
+        - id: Long
+        - designation: String
+        - price: Double
+        - createDate: LocalDateTime
+        - lastUpdateDate: LocalDateTime
+        - supplier: Supplier
+    }
 
-class Article {
-  - id: Long
-  - designation: String
-  - price: Double
-  - createDate: LocalDateTime
-  - lastUpdateDate: LocalDateTime
-  - supplier: Supplier
-}
-
-Supplier &quot;1&quot; -- &quot;1&quot; Contact : contact
-Supplier &quot;1&quot; -- &quot;*&quot; Article  : articles
-@enduml
-</code></pre>
+    Supplier "1" --&gt; "1" Contact : contact
+    Supplier "1" --&gt; "*" Article : articles</code></pre>
 
 
 
