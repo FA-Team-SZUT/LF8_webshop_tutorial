@@ -1,71 +1,67 @@
 (function () {
     const STORAGE_KEY = 'lf8-progress-v1';
 
-    function loadState() {
-        try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
-        catch { return {}; }
-    }
-    function saveState(state) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }
-
-    function pageKey() {
-        // pro Seite eigener Namespace
-        return location.pathname.replace(/\/+$/, '');
-    }
+    // Material lädt Seiten "instant": document$ triggert nach jedem Seitenwechsel
+    document.addEventListener('DOMContentLoaded', init);
+    if (window.document$) document$.subscribe(init);
 
     function init() {
         const state = loadState();
         const key = pageKey();
         state[key] = state[key] || {};
 
-        // alle Checkboxes im Artikel
+        // Alle Task-Checkboxen im Artikel
         const boxes = document.querySelectorAll('article input[type="checkbox"]');
+
         boxes.forEach((box, idx) => {
-            // stabile ID ableiten: Heading + Index
+            // 1) Klickbar machen (Material setzt disabled)
+            if (box.hasAttribute('disabled')) {
+                box.removeAttribute('disabled');
+            }
+
+            // 2) stabile ID pro Checkbox
             if (!box.dataset.trackId) {
-                const heading = box.closest('article').querySelector('h1,h2,h3,h4,h5,h6');
+                const heading = document.querySelector('article h1, article h2, article h3');
                 const htext = heading ? heading.textContent.trim() : 'page';
                 box.dataset.trackId = `${htext}#${idx}`;
             }
             const id = box.dataset.trackId;
 
-            // gespeicherten Zustand anwenden
+            // 3) gespeicherten Zustand anwenden
             if (state[key][id] !== undefined) {
                 box.checked = !!state[key][id];
             }
 
-            // Änderungen speichern
+            // 4) Änderungen speichern
             box.addEventListener('change', () => {
                 state[key][id] = box.checked;
                 saveState(state);
+                updateCounters();
             });
         });
 
-        // Optional: Reset-Button einfügen
-        addResetButton(() => {
-            delete state[key];
-            saveState(state);
-            boxes.forEach(b => (b.checked = false));
-        });
+        updateCounters();
     }
 
-    function addResetButton(onClick) {
-        // Verhindert doppelte Buttons
-        if (document.querySelector('.reset-progress-btn')) return;
-
-        const header = document.querySelector('.md-content__inner > :first-child');
-        if (!header) return;
-
-        const btn = document.createElement('button');
-        btn.textContent = 'Fortschritt zurücksetzen';
-        btn.className = 'md-button reset-progress-btn';
-        btn.style.margin = '0.5rem 0 1rem';
-        btn.addEventListener('click', onClick);
-        header.insertAdjacentElement('afterend', btn);
+    function pageKey() {
+        return location.pathname.replace(/\/+$/, '');
+    }
+    function loadState() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+        catch { return {}; }
+    }
+    function saveState(s) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
     }
 
-    // neu initialisieren, wenn Material Seiten “instant” lädt
-    document.addEventListener('DOMContentLoaded', init);
-    document$.subscribe(() => init());
+    // Optional: Zähler in #t-total / #t-done befüllen, falls vorhanden
+    function updateCounters() {
+        const boxes = Array.from(document.querySelectorAll('article input[type="checkbox"]'));
+        const total = boxes.length;
+        const done = boxes.filter(b => b.checked).length;
+        const tTotal = document.getElementById('t-total');
+        const tDone = document.getElementById('t-done');
+        if (tTotal) tTotal.textContent = String(total);
+        if (tDone) tDone.textContent = String(done);
+    }
 })();
