@@ -1,5 +1,6 @@
 site_name: Webshop-Tutorial
 site_url: https://fa-team-szut.github.io/lf8_webshop_tutorial/
+docs_dir: docs
 theme:
   name: material
   features:
