@@ -22,7 +22,6 @@ nav:
   - 09 Exception Handling: 09_ExceptionHandling.md
   - 10 ArticleController: 10_ArticleController.md
   - 11 Erweiterungen: 11_Erweiterungen.md
-docs_dir: WEBSHOP_TUTORIAL_MD
 markdown_extensions:
   - admonition
   - toc:
