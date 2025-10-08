@@ -13,12 +13,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-      - run: pip install mkdocs-material
-      - run: mkdocs build --strict
-      - uses: peaceiris/actions-gh-pages@v3
+
+      # Installation aller benötigten MkDocs-Plugins
+      - name: Install dependencies
+        run: |
+          pip install mkdocs-material \
+                     mkdocs-git-revision-date-localized-plugin \
+                     mkdocs-awesome-pages-plugin \
+                     mkdocs-minify-plugin \
+                     pymdown-extensions
+
+      # Build prüfen (–strict bricht bei Fehlern ab)
+      - name: Build MkDocs site
+        run: mkdocs build --strict
+
+      # Deployment auf Branch gh-pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./site
