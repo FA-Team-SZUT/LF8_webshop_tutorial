@@ -11,7 +11,6 @@ theme:
     - search.highlight
 nav:
   - Start: index.md
-  - 00 Einleitung: 00_Einleitung.md
   - 01 Docker & Postgres: 01_Docker_Postgres.md
   - 02 Spring Boot Config: 02_SpringBoot_Config.md
   - 03 Models: 03_Models.md
