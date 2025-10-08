@@ -45,8 +45,8 @@ classDiagram
         - supplier: Supplier
     }
 
-    SupplierEntity "1" --> "1" ContactEntity : contact
-    SupplierEntity "1" <--> "*" ArticleEntity : articles
+    SupplierEntity "1" <--> "1" ContactEntity : has
+    SupplierEntity "1" <--> "*" ArticleEntity : delivers
 ```
 
 ## ContactEntity

@@ -107,3 +107,8 @@ public class AddSupplierDto {
 }
 ```
 
+- [ ] Implementiere analog ein `GetSupplierDto` mit den Feldern `id`, `name`, `street`, `postcode`, `city`, `phone` und einer statischen Methode `toDto(entity)`.
+
+- [ ] Implementiere ein `GetArticleDto` mit den Feldern `id`, `name`, `price` und einer statischen Methode `toDto(entity)`.
+
+- [ ] Implementiere ein `GetAllArticlesBySupplierDto` und wähle sinnvolle Felder. Füge eine statische Methode `toDto(supplierEntity, List<articleEntity>)` hinzu.
