@@ -1,0 +1,35 @@
+site_name: Webshop-Tutorial
+site_url: https://fa-team-szut.github.io/lf8_webshop_tutorial/
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - toc.integrate
+    - search.suggest
+    - search.highlight
+nav:
+  - Start: index.md
+  - 00 Einleitung: 00_Einleitung.md
+  - 01 Docker & Postgres: 01_Docker_Postgres.md
+  - 02 Spring Boot Config: 02_SpringBoot_Config.md
+  - 03 Models: 03_Models.md
+  - 04 Bidirektionale Assoziationen: 04_Bidirektionale_Assoziationen.md
+  - 05 Repositories: 05_Repositories.md
+  - 06 DTOs & Mapping: 06_DTOs_und_Mapping.md
+  - 07 SupplierController: 07_SupplierController.md
+  - 08 Integrationstests: 08_Integrationstests.md
+  - 09 Exception Handling: 09_ExceptionHandling.md
+  - 10 ArticleController: 10_ArticleController.md
+  - 11 Erweiterungen: 11_Erweiterungen.md
+docs_dir: WEBSHOP_TUTORIAL_MD
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - attr_list
+  - tables
+extra:
+  generator: false
+plugins:
+  - search
