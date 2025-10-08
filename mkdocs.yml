@@ -1,6 +1,7 @@
 site_name: LF8-Webshop-Tutorial
 site_url: https://fa-team-szut.github.io/lf8_webshop_tutorial/
 docs_dir: docs
+
 theme:
   name: material
   features:
@@ -9,6 +10,7 @@ theme:
     - toc.integrate
     - search.suggest
     - search.highlight
+
 nav:
   - Start: index.md
   - 01 Docker & Postgres: 01_Docker_Postgres.md
@@ -22,13 +24,21 @@ nav:
   - 09 Exception Handling: 09_ExceptionHandling.md
   - 10 ArticleController: 10_ArticleController.md
   - 11 Erweiterungen: 11_Erweiterungen.md
+
 markdown_extensions:
   - admonition
   - toc:
       permalink: true
   - attr_list
   - tables
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
 extra:
   generator: false
+
 plugins:
   - search

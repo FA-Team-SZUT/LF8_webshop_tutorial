@@ -24,36 +24,33 @@ Die Implementierung umfasst:
 - Zentrales **Exception‑Handling**
 - Erweiterungen (z. B. HATEOAS)
 
-```plantuml
-@startuml
-skinparam classAttributeIconSize 0
+```mermaid
+classDiagram
+    class Supplier {
+        - id: Long
+        - name: String
+        - contact: Contact
+        - articles: Set<Article>
+    }
 
-class Supplier {
-  - id: Long
-  - name: String
-  - contact: Contact
-  - articles: Set<Article>
-}
+    class Contact {
+        - id: Long
+        - street: String
+        - postcode: String
+        - city: String
+        - phone: String
+        - supplier: Supplier
+    }
 
-class Contact {
-  - id: Long
-  - street: String
-  - postcode: String
-  - city: String
-  - phone: String
-  - supplier: Supplier
-}
+    class Article {
+        - id: Long
+        - designation: String
+        - price: Double
+        - createDate: LocalDateTime
+        - lastUpdateDate: LocalDateTime
+        - supplier: Supplier
+    }
 
-class Article {
-  - id: Long
-  - designation: String
-  - price: Double
-  - createDate: LocalDateTime
-  - lastUpdateDate: LocalDateTime
-  - supplier: Supplier
-}
-
-Supplier "1" -- "1" Contact : contact
-Supplier "1" -- "*" Article  : articles
-@enduml
+    Supplier "1" --> "1" Contact : contact
+    Supplier "1" --> "*" Article : articles
 ```
