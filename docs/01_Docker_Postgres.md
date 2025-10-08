@@ -3,16 +3,15 @@
 
 Statt der In‑Memory‑Datenbank H2 soll in diesem Tutorial die professionelle und Open‑Source‑Datenbank **PostgreSQL** verwendet werden. Wir setzen **keinen separaten DB‑Server** auf, sondern betreiben PostgreSQL in einem **Docker‑Container**. Dafür sind ein paar zusätzliche Konfigurationen nötig.
 
-Erstelle ein neues Spring‑Boot‑Projekt mit dem Bezeichner `store`. **Group**: `de.szut`.  
+[ ] Erstelle ein neues Spring‑Boot‑Projekt mit dem Bezeichner `store`. **Group**: `de.szut`.  
 Benötigte Abhängigkeiten: **Spring Web**, **Spring Data JPA**, **Lombok**, **PostgreSQL Driver**.
 
-Erstelle im Hauptverzeichnis deines Projekts (auf Root-Ebene) die Datei **`compose.yml`**.
-- [ ] Docker installieren
-
+[ ] Erstelle im Hauptverzeichnis deines Projekts (auf Root-Ebene) die Datei **`compose.yml`**.
+ 
 
 In der Regel bilden mehrere Docker‑Container eine Anwendung. **Docker Compose** dient dazu, mehrere Images zu konfigurieren und hintereinander zu starten (anstatt jeden Container einzeln). In unserem Fall benötigen wir **nur einen** Container: die PostgreSQL‑Datenbank.
 
-Kopiere den unten abgebildeten Code in dein Compose‑File:
+[ ] Kopiere den unten abgebildeten Code in dein Compose‑File:
 
 ```yml
 volumes:
@@ -48,6 +47,7 @@ services:
 4. Beenden: `docker compose down`  
 5. Volume ggf. löschen: `docker volume rm store_postgres_data`
 
+[ ] Starte den Container und teste die Verbindung mit einem Datenbank-Client (z.B. IntelliJ Database Tool, o.Ä.):
 
 > **Fortschritt:** <!-- wird live gezählt -->
 > - Gesamt: <span id="t-total">0</span>
