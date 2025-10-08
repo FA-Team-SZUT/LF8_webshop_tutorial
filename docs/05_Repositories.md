@@ -1,7 +1,10 @@
 
 # Implementierung der Repositories
+> **Fortschritt:** <!-- wird live gezählt -->
+> - Gesamt: <span id="t-total">0</span>
+> - Erledigt: <span id="t-done">0</span>
 
-Implementiere die Datenzugriffsschicht, indem du für `ArticleEntity` und `SupplierEntity` im jeweiligen Modul‑Package ein **Repository** implementierst. (Warum kein `ContactRepository` benötigt wird, wird später diskutiert.)
+- [ ] Implementiere die Datenzugriffsschicht, indem du für `ArticleEntity` und `SupplierEntity` im jeweiligen Modul‑Package ein **Repository** implementierst. 
 
 > Hinweis: Du musst nur jeweils ein **Interface** anlegen, das `JpaRepository` erweitert.
 

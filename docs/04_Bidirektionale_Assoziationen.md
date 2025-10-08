@@ -1,5 +1,8 @@
 
 # Bidirektionale Assoziationen & Lazy/Eager Loading
+> **Fortschritt:** <!-- wird live gezählt -->
+> - Gesamt: <span id="t-total">0</span>
+> - Erledigt: <span id="t-done">0</span>
 
 Hibernate mapped die Beziehungen unseres Klassenmodells auf die Beziehungen einer relationalen Datenbank.
 
@@ -25,7 +28,9 @@ public class ContactEntity {
 }
 ```
 
-Da Hibernate wissen muss, in welcher Tabelle der Fremdschlüssel eingefügt werden soll, deklarieren wir über `mappedBy` den **Eigentümer** der Beziehung. Das Mapping bewirkt, dass Hibernate in der Tabelle `supplier` statt eines eingebetteten Objekts einen **Fremdschlüssel** einfügt (Default‑Benennung `contact_id`).
+Da Hibernate wissen muss, in welcher Tabelle der Fremdschlüssel eingefügt werden soll, deklarieren wir über `mappedBy` den **Eigentümer** der Beziehung. Das Mapping bewirkt, dass Hibernate in der Tabelle `supplier` statt eines eingebetteten Objekts einen **Fremdschlüssel** einfügt (Default‑Benennung `contact_id`). 
+
+- [ ] Füge die Mappings in die beiden Entity-Klassen ein. Fahre die Applikation danach hoch und überprüfe in einem DB-Tool, dass die Spalte `contact_id` in der Tabelle `supplier` existiert.
 
 ### Hinweis zu Cascading
 
@@ -64,7 +69,22 @@ Ergänze daher in `SupplierEntity`:
 private Set<ArticleEntity> articles = new HashSet<>();
 ```
 
-Wichtig ist `mappedBy = "supplier"`. In einer bidirektionalen Beziehung muss eine Seite der **Eigentümer** sein. **Aus Performance‑Gründen** wählt man fast immer die **@ManyToOne‑Seite** (hier: `ArticleEntity`) als Eigentümer.
+### Eigentümer der Beziehung: mappedBy
+
+`mappedBy = "supplier"` definiert, dass `ArticleEntity` der **Eigentümer** (Owner) der Beziehung ist. Bei bidirektionalen Beziehungen muss immer eine Seite als Eigentümer festgelegt werden:
+
+- **Eigentümer-Seite** (`ArticleEntity` mit `@ManyToOne`): Verwaltet den Foreign Key in der Datenbank
+- **Nicht-Eigentümer-Seite** (`SupplierEntity` mit `@OneToMany` und `mappedBy`): Referenziert nur, schreibt aber nicht in die DB
+
+**Wichtig:** Bei 1:n-Beziehungen sollte **immer die n-Seite** (hier: `ArticleEntity`) der Eigentümer sein, aus folgenden Gründen:
+
+1. **Performance**: Hibernate kann den Foreign Key direkt in der `article`-Tabelle speichern (eine INSERT-Operation)
+2. **Vermeidung von Join-Tabellen**: Ohne `mappedBy` würde Hibernate eine unnötige Zwischentabelle `supplier_articles` erstellen
+3. **Natürliche Struktur**: In der relationalen Datenbank hat die n-Seite ohnehin den Foreign Key
+
+**Technisch:** `mappedBy = "supplier"` verweist auf das Attribut `supplier` in der `ArticleEntity`-Klasse, das den Foreign Key verwaltet.
+
+- [ ] Füge die Mappings in die beiden Entity-Klassen ein.
 
 ### ⚠️ Warnung: Kein Cascading bei 1:n-Beziehungen!
 

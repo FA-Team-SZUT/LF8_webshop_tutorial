@@ -1,5 +1,8 @@
 
 # DTOs und Mapping
+> **Fortschritt:** <!-- wird live gezählt -->
+> - Gesamt: <span id="t-total">0</span>
+> - Erledigt: <span id="t-done">0</span>
 
 In früheren Übungen wurden Entity‑Objekte direkt in JSON serialisiert/deserialisiert. Das koppelt jedoch **Controller** und **Persistenzstruktur** sehr eng. Änderungen an der DB‑Struktur erzwingen API‑Änderungen (und umgekehrt). Best Practice ist daher die Entkopplung über **DTOs (Data Transfer Objects)** und ein **Mapping** zwischen DTOs und Entities.
 
