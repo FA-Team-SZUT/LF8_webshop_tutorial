@@ -1,0 +1,1308 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://fa-team-szut.github.io/lf8_webshop_tutorial/09_ExceptionHandling/">
+      
+      
+        <link rel="prev" href="../08_Integrationstests/">
+      
+      
+        <link rel="next" href="../10_ArticleController/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>09 Exception Handling - Webshop-Tutorial</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.2a3383ac.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#zentrales-exception-handling" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Webshop-Tutorial" class="md-header__button md-logo" aria-label="Webshop-Tutorial" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Webshop-Tutorial
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              09 Exception Handling
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Webshop-Tutorial" class="md-nav__button md-logo" aria-label="Webshop-Tutorial" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Webshop-Tutorial
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Start
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_Docker_Postgres/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    01 Docker & Postgres
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_SpringBoot_Config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    02 Spring Boot Config
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_Models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    03 Models
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_Bidirektionale_Assoziationen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    04 Bidirektionale Assoziationen
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_Repositories/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    05 Repositories
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_DTOs_und_Mapping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    06 DTOs & Mapping
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_SupplierController/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    07 SupplierController
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08_Integrationstests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    08 Integrationstests
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    09 Exception Handling
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    09 Exception Handling
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#warum-brauchen-wir-exception-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Warum brauchen wir Exception-Handling?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Warum brauchen wir Exception-Handling?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#das-problem-spring-boots-standard-fehlerantworten" class="md-nav__link">
+    <span class="md-ellipsis">
+      Das Problem: Spring Boots Standard-Fehlerantworten
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#die-losung-zentrales-exception-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Die Lösung: Zentrales Exception-Handling
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schritt-1-eigene-exception-fur-nicht-gefunden" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 1: Eigene Exception für "Nicht gefunden"
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schritt 1: Eigene Exception für &#34;Nicht gefunden&#34;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aufgabe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Aufgabe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#erklarung" class="md-nav__link">
+    <span class="md-ellipsis">
+      Erklärung
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schritt-2-einheitliche-fehlerstruktur-definieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 2: Einheitliche Fehlerstruktur definieren
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schritt 2: Einheitliche Fehlerstruktur definieren">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aufgabe_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Aufgabe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#erklarung_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Erklärung
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schritt-3-zentraler-exception-handler" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 3: Zentraler Exception-Handler
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schritt 3: Zentraler Exception-Handler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aufgabe_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Aufgabe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#erklarung-wie-funktioniert-das" class="md-nav__link">
+    <span class="md-ellipsis">
+      Erklärung: Wie funktioniert das?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Erklärung: Wie funktioniert das?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#controlleradvice" class="md-nav__link">
+    <span class="md-ellipsis">
+      @ControllerAdvice
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exceptionhandlerexceptiontypeclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      @ExceptionHandler(ExceptionType.class)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#handler-flow-am-beispiel-resourcenotfoundexception" class="md-nav__link">
+    <span class="md-ellipsis">
+      Handler-Flow am Beispiel ResourceNotFoundException:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schritt-4-exception-im-service-verwenden" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schritt 4: Exception im Service verwenden
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schritt 4: Exception im Service verwenden">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aufgabe_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Aufgabe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testen
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testen-die-verschiedenen-fehlertypen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testen: Die verschiedenen Fehlertypen
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testen: Die verschiedenen Fehlertypen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-1-resourcenotfoundexception-404-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test 1: ResourceNotFoundException (404 Not Found)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-2-methodargumentnotvalidexception-400-bad-request" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test 2: MethodArgumentNotValidException (400 Bad Request)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-3-constraintviolationexception-400-bad-request" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test 3: ConstraintViolationException (400 Bad Request)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ubersicht-welcher-handler-fur-welchen-fehler" class="md-nav__link">
+    <span class="md-ellipsis">
+      Übersicht: Welcher Handler für welchen Fehler?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pro-contra-zentrales-exception-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pro &amp; Contra: Zentrales Exception-Handling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pro &amp; Contra: Zentrales Exception-Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vorteile" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Vorteile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nachteile" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚠️ Nachteile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternative-controller-basiertes-exception-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alternative: Controller-basiertes Exception-Handling
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zusammenfassung" class="md-nav__link">
+    <span class="md-ellipsis">
+      Zusammenfassung
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_ArticleController/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    10 ArticleController
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11_Erweiterungen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    11 Erweiterungen
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="zentrales-exception-handling">Zentrales Exception-Handling<a class="headerlink" href="#zentrales-exception-handling" title="Permanent link">&para;</a></h1>
+<h2 id="warum-brauchen-wir-exception-handling">Warum brauchen wir Exception-Handling?<a class="headerlink" href="#warum-brauchen-wir-exception-handling" title="Permanent link">&para;</a></h2>
+<h3 id="das-problem-spring-boots-standard-fehlerantworten">Das Problem: Spring Boots Standard-Fehlerantworten<a class="headerlink" href="#das-problem-spring-boots-standard-fehlerantworten" title="Permanent link">&para;</a></h3>
+<p>Beim Ausführen eines fehlerhaften Requests (z.B. POST mit ungültigen Daten oder GET mit nicht existierender ID) liefert Spring Boot standardmäßig eine sehr <strong>generische</strong> Fehlerantwort wie diese:</p>
+<pre><code class="language-json">{
+  &quot;timestamp&quot;: &quot;2025-10-08T11:58:08.139+00:00&quot;,
+  &quot;status&quot;: 500,
+  &quot;error&quot;: &quot;Internal Server Error&quot;,
+  &quot;path&quot;: &quot;/store/supplier&quot;
+}
+</code></pre>
+<p>Oder bei Validierungsfehlern manchmal auch:</p>
+<pre><code class="language-json">{
+  &quot;timestamp&quot;: &quot;2025-10-08T11:58:08.139+00:00&quot;,
+  &quot;status&quot;: 400,
+  &quot;error&quot;: &quot;Bad Request&quot;,
+  &quot;path&quot;: &quot;/store/supplier&quot;
+}
+</code></pre>
+<p><strong>Probleme dieser Standard-Antworten:</strong></p>
+<ol>
+<li>❌ <strong>Keine konkrete Fehlermeldung</strong>: Was genau ist schiefgelaufen? Welches Feld fehlt?</li>
+<li>❌ <strong>Kein <code>message</code>-Feld</strong>: Clients müssen aus <code>status</code> und <code>error</code> selbst interpretieren</li>
+<li>❌ <strong>Nicht aussagekräftig</strong>: "Internal Server Error" sagt nichts über die Ursache</li>
+<li>❌ <strong>Nicht einheitlich</strong>: Je nach Exception-Typ unterschiedliche Strukturen (manchmal mit <code>message</code>, manchmal ohne)</li>
+<li>❌ <strong>Client-unfreundlich</strong>: Keine programmatisch auswertbaren Details</li>
+<li>❌ <strong>Falsche Status-Codes</strong>: Oft 500 statt 404 bei "nicht gefunden"</li>
+</ol>
+<h3 id="die-losung-zentrales-exception-handling">Die Lösung: Zentrales Exception-Handling<a class="headerlink" href="#die-losung-zentrales-exception-handling" title="Permanent link">&para;</a></h3>
+<p>Wir implementieren ein <strong>einheitliches, aussagekräftiges Fehlerhandling</strong> für alle Controller:</p>
+<p><strong>Vorteile:</strong>
+- ✅ Einheitliche Fehlerstruktur für alle Endpunkte
+- ✅ Aussagekräftige, benutzerfreundliche Fehlermeldungen
+- ✅ Korrekte HTTP-Statuscodes (404, 400, 500, etc.)
+- ✅ Keine Code-Duplizierung in jedem Controller
+- ✅ Zentrale Verwaltung aller Exceptions
+- ✅ Maschinell verarbeitbare Fehlerantworten</p>
+<hr />
+<h2 id="schritt-1-eigene-exception-fur-nicht-gefunden">Schritt 1: Eigene Exception für "Nicht gefunden"<a class="headerlink" href="#schritt-1-eigene-exception-fur-nicht-gefunden" title="Permanent link">&para;</a></h2>
+<h3 id="aufgabe">Aufgabe<a class="headerlink" href="#aufgabe" title="Permanent link">&para;</a></h3>
+<p>Erstelle im Package <code>exceptionhandling</code> die Klasse <code>ResourceNotFoundException</code>:</p>
+<pre><code class="language-java">package de.szut.store.exceptionhandling;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class ResourceNotFoundException extends RuntimeException {
+
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
+}
+</code></pre>
+<h3 id="erklarung">Erklärung<a class="headerlink" href="#erklarung" title="Permanent link">&para;</a></h3>
+<p><strong>Warum von <code>RuntimeException</code> erben?</strong>
+- RuntimeExceptions sind <strong>unchecked</strong> – Methoden müssen nicht mit <code>throws</code> deklariert werden
+- Der Code bleibt sauber ohne überall Exception-Deklarationen</p>
+<p><strong>Was macht <code>@ResponseStatus(HttpStatus.NOT_FOUND)</code>?</strong>
+- Legt automatisch den HTTP-Statuscode <strong>404 (Not Found)</strong> fest
+- Sobald diese Exception geworfen wird, antwortet Spring mit Status 404
+- Ohne diese Annotation würde standardmäßig 500 (Internal Server Error) zurückgegeben</p>
+<hr />
+<h2 id="schritt-2-einheitliche-fehlerstruktur-definieren">Schritt 2: Einheitliche Fehlerstruktur definieren<a class="headerlink" href="#schritt-2-einheitliche-fehlerstruktur-definieren" title="Permanent link">&para;</a></h2>
+<h3 id="aufgabe_1">Aufgabe<a class="headerlink" href="#aufgabe_1" title="Permanent link">&para;</a></h3>
+<p>Erstelle im Package <code>exceptionhandling</code> die Klasse <code>ErrorDetails</code>:</p>
+<pre><code class="language-java">package de.szut.store.exceptionhandling;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import java.time.LocalDateTime;
+
+@Data
+@AllArgsConstructor
+public class ErrorDetails {
+    private LocalDateTime timestamp;  // Zeitpunkt des Fehlers
+    private String message;            // Benutzerfreundliche Fehlermeldung
+    private String details;            // Zusatzinfos (z.B. URI-Pfad)
+}
+</code></pre>
+<h3 id="erklarung_1">Erklärung<a class="headerlink" href="#erklarung_1" title="Permanent link">&para;</a></h3>
+<p>Diese Klasse definiert die <strong>einheitliche Struktur</strong> für alle Fehlerantworten:</p>
+<ul>
+<li><strong><code>timestamp</code></strong>: Wann ist der Fehler aufgetreten? (wichtig für Logging/Debugging)</li>
+<li><strong><code>message</code></strong>: Die Haupt-Fehlermeldung für den Client (z.B. "Supplier not found on Id = 3")</li>
+<li><strong><code>details</code></strong>: Zusätzliche Kontext-Informationen (z.B. welcher Endpunkt aufgerufen wurde)</li>
+</ul>
+<p><strong><code>@AllArgsConstructor</code></strong> generiert einen Konstruktor mit allen drei Parametern, damit wir einfach Instanzen erstellen können.</p>
+<hr />
+<h2 id="schritt-3-zentraler-exception-handler">Schritt 3: Zentraler Exception-Handler<a class="headerlink" href="#schritt-3-zentraler-exception-handler" title="Permanent link">&para;</a></h2>
+<h3 id="aufgabe_2">Aufgabe<a class="headerlink" href="#aufgabe_2" title="Permanent link">&para;</a></h3>
+<p>Erstelle im Package <code>exceptionhandling</code> die Klasse <code>GlobalExceptionHandler</code>:</p>
+<pre><code class="language-java">package de.szut.store.exceptionhandling;
+
+import jakarta.validation.ConstraintViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
+
+import java.time.LocalDateTime;
+
+@ControllerAdvice
+public class GlobalExceptionHandler {
+
+    /**
+     * Behandelt ResourceNotFoundException (404 - Not Found)
+     * Wird geworfen, wenn eine angeforderte Ressource nicht existiert
+     */
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity&lt;ErrorDetails&gt; handleResourceNotFound(
+            ResourceNotFoundException ex, 
+            WebRequest request) {
+
+        ErrorDetails error = new ErrorDetails(
+            LocalDateTime.now(),
+            ex.getMessage(),
+            request.getDescription(false)
+        );
+        return new ResponseEntity&lt;&gt;(error, HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * Behandelt MethodArgumentNotValidException (400 - Bad Request)
+     * Wird von @Valid automatisch geworfen, wenn DTO-Validierung fehlschlägt
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity&lt;ErrorDetails&gt; handleValidation(
+            MethodArgumentNotValidException ex, 
+            WebRequest request) {
+
+        // Extrahiere die erste Fehlermeldung aus den Validierungs-Errors
+        String message = ex.getBindingResult()
+            .getFieldErrors()
+            .get(0)
+            .getDefaultMessage();
+
+        ErrorDetails error = new ErrorDetails(
+            LocalDateTime.now(),
+            message,
+            request.getDescription(false)
+        );
+        return new ResponseEntity&lt;&gt;(error, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Behandelt ConstraintViolationException (400 - Bad Request)
+     * Wird geworfen, wenn Bean-Validation-Constraints verletzt werden
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity&lt;ErrorDetails&gt; handleConstraintViolation(
+            ConstraintViolationException ex, 
+            WebRequest request) {
+
+        // Extrahiere die erste Constraint-Verletzungs-Nachricht
+        String message = ex.getConstraintViolations()
+            .iterator()
+            .next()
+            .getMessage();
+
+        ErrorDetails error = new ErrorDetails(
+            LocalDateTime.now(),
+            message,
+            request.getDescription(false)
+        );
+        return new ResponseEntity&lt;&gt;(error, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Behandelt alle anderen Exceptions (500 - Internal Server Error)
+     * Fallback für unerwartete Fehler
+     */
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity&lt;ErrorDetails&gt; handleGlobalException(
+            Exception ex, 
+            WebRequest request) {
+
+        ErrorDetails error = new ErrorDetails(
+            LocalDateTime.now(),
+            &quot;Internal server error&quot;,
+            request.getDescription(false)
+        );
+        return new ResponseEntity&lt;&gt;(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
+</code></pre>
+<h3 id="erklarung-wie-funktioniert-das">Erklärung: Wie funktioniert das?<a class="headerlink" href="#erklarung-wie-funktioniert-das" title="Permanent link">&para;</a></h3>
+<h4 id="controlleradvice"><code>@ControllerAdvice</code><a class="headerlink" href="#controlleradvice" title="Permanent link">&para;</a></h4>
+<p>Diese Annotation macht die Klasse zu einem <strong>globalen Controller-Berater</strong>:
+- Gilt für <strong>alle Controller</strong> in der Anwendung
+- Zentrale Stelle für Exception-Handling
+- Spring wendet diese Handler automatisch auf alle Endpunkte an</p>
+<h4 id="exceptionhandlerexceptiontypeclass"><code>@ExceptionHandler(ExceptionType.class)</code><a class="headerlink" href="#exceptionhandlerexceptiontypeclass" title="Permanent link">&para;</a></h4>
+<p>Definiert, welche Exception-Methode behandelt:
+- Sobald <strong>irgendwo</strong> in der Anwendung diese Exception geworfen wird
+- Wird automatisch die annotierte Methode aufgerufen
+- Die Methode baut eine passende HTTP-Response</p>
+<h4 id="handler-flow-am-beispiel-resourcenotfoundexception">Handler-Flow am Beispiel <code>ResourceNotFoundException</code>:<a class="headerlink" href="#handler-flow-am-beispiel-resourcenotfoundexception" title="Permanent link">&para;</a></h4>
+<pre><code>1. Service wirft: throw new ResourceNotFoundException(&quot;Supplier not found&quot;)
+                            ↓
+2. Spring fängt Exception ab
+                            ↓
+3. Spring sucht passenden @ExceptionHandler
+                            ↓
+4. handleResourceNotFound() wird ausgeführt
+                            ↓
+5. ErrorDetails-Objekt wird erstellt
+                            ↓
+6. ResponseEntity mit Status 404 wird zurückgegeben
+                            ↓
+7. Spring serialisiert ErrorDetails zu JSON
+                            ↓
+8. Client erhält einheitliche Fehlerantwort
+</code></pre>
+<hr />
+<h2 id="schritt-4-exception-im-service-verwenden">Schritt 4: Exception im Service verwenden<a class="headerlink" href="#schritt-4-exception-im-service-verwenden" title="Permanent link">&para;</a></h2>
+<h3 id="aufgabe_3">Aufgabe<a class="headerlink" href="#aufgabe_3" title="Permanent link">&para;</a></h3>
+<p>Passe die Methode <code>findById()</code> im <code>SupplierService</code> an:</p>
+<pre><code class="language-java">@Service
+public class SupplierService {
+
+    private final SupplierRepository supplierRepository;
+
+    public SupplierService(SupplierRepository supplierRepository) {
+        this.supplierRepository = supplierRepository;
+    }
+
+    public SupplierEntity findById(Long id) {
+        return supplierRepository.findById(id)
+            .orElseThrow(() -&gt; new ResourceNotFoundException(
+                &quot;Supplier not found on Id = &quot; + id));
+    }
+
+    // ... weitere Methoden
+}
+</code></pre>
+<h3 id="testen">Testen<a class="headerlink" href="#testen" title="Permanent link">&para;</a></h3>
+<p><strong>Test-Request:</strong></p>
+<pre><code class="language-http">GET http://localhost:8080/store/supplier/999
+</code></pre>
+<p><strong>Erwartete Antwort (Status 404):</strong></p>
+<pre><code class="language-json">{
+  &quot;timestamp&quot;: &quot;2025-10-08T14:23:11.770&quot;,
+  &quot;message&quot;: &quot;Supplier not found on Id = 999&quot;,
+  &quot;details&quot;: &quot;uri=/store/supplier/999&quot;
+}
+</code></pre>
+<p>✅ <strong>Viel besser!</strong> Klare Fehlermeldung, korrekte Statuscode, einheitliche Struktur.</p>
+<hr />
+<h2 id="testen-die-verschiedenen-fehlertypen">Testen: Die verschiedenen Fehlertypen<a class="headerlink" href="#testen-die-verschiedenen-fehlertypen" title="Permanent link">&para;</a></h2>
+<p>Jetzt können wir die verschiedenen Exception-Handler testen:</p>
+<h3 id="test-1-resourcenotfoundexception-404-not-found">Test 1: ResourceNotFoundException (404 Not Found)<a class="headerlink" href="#test-1-resourcenotfoundexception-404-not-found" title="Permanent link">&para;</a></h3>
+<p><strong>Test-Request (nicht existierende ID):</strong></p>
+<pre><code class="language-http">GET http://localhost:8080/store/supplier/999
+</code></pre>
+<p><strong>Erwartete Antwort:</strong></p>
+<pre><code class="language-json">{
+  &quot;timestamp&quot;: &quot;2025-10-08T14:23:11.770&quot;,
+  &quot;message&quot;: &quot;Supplier not found on Id = 999&quot;,
+  &quot;details&quot;: &quot;uri=/store/supplier/999&quot;
+}
+</code></pre>
+<p>✅ Status 404, klare Fehlermeldung!</p>
+<hr />
+<h3 id="test-2-methodargumentnotvalidexception-400-bad-request">Test 2: MethodArgumentNotValidException (400 Bad Request)<a class="headerlink" href="#test-2-methodargumentnotvalidexception-400-bad-request" title="Permanent link">&para;</a></h3>
+<p><strong>Test-Request (fehlender Name):</strong></p>
+<pre><code class="language-http">POST http://localhost:8080/store/supplier
+Content-Type: application/json
+
+{
+  &quot;street&quot;: &quot;Hauptstraße 1&quot;,
+  &quot;postcode&quot;: &quot;28209&quot;,
+  &quot;city&quot;: &quot;Bremen&quot;,
+  &quot;phone&quot;: &quot;0421123456&quot;
+}
+</code></pre>
+<p><strong>Erwartete Antwort:</strong></p>
+<pre><code class="language-json">{
+  &quot;timestamp&quot;: &quot;2025-10-08T14:25:33.123&quot;,
+  &quot;message&quot;: &quot;Name is mandatory&quot;,
+  &quot;details&quot;: &quot;uri=/store/supplier&quot;
+}
+</code></pre>
+<p>✅ Nur die relevante Fehlermeldung aus der <code>@NotBlank(message = "...")</code>-Annotation!</p>
+<p><strong>Wichtig:</strong> Die Handler für <code>MethodArgumentNotValidException</code> und <code>ConstraintViolationException</code> extrahieren automatisch die <strong>benutzerdefinierten Fehlermeldungen</strong> aus den Validierungs-Annotationen im DTO:</p>
+<pre><code class="language-java">// Im AddSupplierDto:
+@NotBlank(message = &quot;Name is mandatory&quot;)  // ← Diese Message wird verwendet
+private String name;
+</code></pre>
+<hr />
+<h3 id="test-3-constraintviolationexception-400-bad-request">Test 3: ConstraintViolationException (400 Bad Request)<a class="headerlink" href="#test-3-constraintviolationexception-400-bad-request" title="Permanent link">&para;</a></h3>
+<p><strong>Test-Request (ungültige Postleitzahl):</strong></p>
+<pre><code class="language-http">POST http://localhost:8080/store/supplier
+Content-Type: application/json
+
+{
+  &quot;name&quot;: &quot;Test Supplier&quot;,
+  &quot;street&quot;: &quot;Hauptstraße 1&quot;,
+  &quot;postcode&quot;: &quot;123456789&quot;,
+  &quot;city&quot;: &quot;Bremen&quot;,
+  &quot;phone&quot;: &quot;0421123456&quot;
+}
+</code></pre>
+<p><strong>Erwartete Antwort:</strong></p>
+<pre><code class="language-json">{
+  &quot;timestamp&quot;: &quot;2025-10-08T14:27:15.456&quot;,
+  &quot;message&quot;: &quot;Postcode must be 5 characters&quot;,
+  &quot;details&quot;: &quot;uri=/store/supplier&quot;
+}
+</code></pre>
+<p>✅ Auch hier wird die Message aus der <code>@Size</code>-Annotation verwendet!</p>
+<hr />
+<h2 id="ubersicht-welcher-handler-fur-welchen-fehler">Übersicht: Welcher Handler für welchen Fehler?<a class="headerlink" href="#ubersicht-welcher-handler-fur-welchen-fehler" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Exception</th>
+<th>HTTP-Status</th>
+<th>Wann wird sie geworfen?</th>
+<th>Beispiel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ResourceNotFoundException</code></td>
+<td>404 Not Found</td>
+<td>Ressource existiert nicht</td>
+<td>Supplier mit ID 999 nicht gefunden</td>
+</tr>
+<tr>
+<td><code>MethodArgumentNotValidException</code></td>
+<td>400 Bad Request</td>
+<td><code>@Valid</code> schlägt fehl</td>
+<td>Pflichtfeld fehlt in POST-Request</td>
+</tr>
+<tr>
+<td><code>ConstraintViolationException</code></td>
+<td>400 Bad Request</td>
+<td>Bean-Validation verletzt</td>
+<td>Ungültige Postleitzahl (zu lang)</td>
+</tr>
+<tr>
+<td><code>Exception</code> (alle anderen)</td>
+<td>500 Internal Server Error</td>
+<td>Unerwarteter Fehler</td>
+<td>Datenbankverbindung fehlgeschlagen</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="pro-contra-zentrales-exception-handling">Pro &amp; Contra: Zentrales Exception-Handling<a class="headerlink" href="#pro-contra-zentrales-exception-handling" title="Permanent link">&para;</a></h2>
+<h3 id="vorteile">✅ Vorteile<a class="headerlink" href="#vorteile" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Vorteil</th>
+<th>Erklärung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Keine Duplizierung</strong></td>
+<td>Code wird nur einmal geschrieben, gilt für alle Controller</td>
+</tr>
+<tr>
+<td><strong>Einheitlichkeit</strong></td>
+<td>Alle Fehler haben die gleiche Struktur</td>
+</tr>
+<tr>
+<td><strong>Wartbarkeit</strong></td>
+<td>Änderungen an Fehlerstruktur an einer Stelle</td>
+</tr>
+<tr>
+<td><strong>Übersichtlichkeit</strong></td>
+<td>Alle Exception-Typen zentral dokumentiert</td>
+</tr>
+<tr>
+<td><strong>Separation of Concerns</strong></td>
+<td>Controller bleiben fokussiert auf Business-Logik</td>
+</tr>
+</tbody>
+</table>
+<h3 id="nachteile">⚠️ Nachteile<a class="headerlink" href="#nachteile" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Nachteil</th>
+<th>Erklärung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Weniger Kontrolle</strong></td>
+<td>Exceptions "verschwinden" aus dem Controller</td>
+</tr>
+<tr>
+<td><strong>Debugging schwieriger</strong></td>
+<td>Stack-Traces müssen genau angeschaut werden</td>
+</tr>
+<tr>
+<td><strong>Übersicht geht verloren</strong></td>
+<td>Welche Exceptions kann ein Endpunkt werfen?</td>
+</tr>
+</tbody>
+</table>
+<h3 id="alternative-controller-basiertes-exception-handling">Alternative: Controller-basiertes Exception-Handling<a class="headerlink" href="#alternative-controller-basiertes-exception-handling" title="Permanent link">&para;</a></h3>
+<p>Manche Teams bevorzugen Exception-Handling <strong>pro Controller</strong>:</p>
+<pre><code class="language-java">@RestController
+@RequestMapping(&quot;/store/supplier&quot;)
+public class SupplierController {
+
+    // ... Controller-Methoden
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity&lt;ErrorDetails&gt; handleNotFound(ResourceNotFoundException ex) {
+        // Nur für diesen Controller
+    }
+}
+</code></pre>
+<p><strong>Vorteil:</strong> Entwickler sieht sofort, welche Exceptions der Controller werfen kann<br />
+<strong>Nachteil:</strong> Code-Duplizierung in jedem Controller</p>
+<hr />
+<h2 id="zusammenfassung">Zusammenfassung<a class="headerlink" href="#zusammenfassung" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Eigene Exceptions definieren</strong> (<code>ResourceNotFoundException</code>) für fachliche Fehler</li>
+<li><strong>Einheitliche Fehlerstruktur</strong> (<code>ErrorDetails</code>) für alle Responses</li>
+<li><strong>Zentraler Handler</strong> (<code>@ControllerAdvice</code> + <code>@ExceptionHandler</code>) für alle Controller</li>
+<li><strong>Aussagekräftige Messages</strong> aus Validierungs-Annotationen extrahieren</li>
+<li><strong>Korrekte HTTP-Statuscodes</strong> für jeden Fehlertyp</li>
+</ol>
+<p><strong>Ergebnis:</strong> Eine professionelle REST-API mit klaren, einheitlichen Fehlermeldungen! 🎉
+```</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.top", "toc.integrate", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
