@@ -52,5 +52,5 @@ classDiagram
     }
 
     Supplier "1" --> "1" Contact : contact
-    Supplier "1" --> "*" Article : articles
+    Supplier "1" <--> "*" Article : articles
 ```

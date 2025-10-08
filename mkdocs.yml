@@ -5,11 +5,16 @@ docs_dir: docs
 theme:
   name: material
   features:
+    # Navigation und Layout
     - navigation.sections
     - navigation.top
     - toc.integrate
+    # Suche & UX
     - search.suggest
     - search.highlight
+    - content.code.copy
+    - content.progress   # Fortschrittsbalken beim Scrollen
+  language: de
 
 nav:
   - Start: index.md
@@ -42,3 +47,8 @@ extra:
 
 plugins:
   - search
+  - git-revision-date-localized:
+      fallback_to_build_date: true     # "Zuletzt aktualisiert" am Seitenende
+  - awesome-pages                     # Automatische Navigation nach Ordnerstruktur
+  - minify:
+      minify_html: true               # Schnellere Ladezeiten durch kleinere Seiten

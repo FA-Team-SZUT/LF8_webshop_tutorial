@@ -64,28 +64,53 @@ Der **Service** ist Teil der **Business-Logik-Schicht** und hat folgende Aufgabe
 
 ### Beispiel-Flow:
 
-```
-1. Client sendet POST /api/suppliers mit JSON
-                ↓
-2. Controller empfängt AddSupplierDto
-                ↓
-3. Controller validiert DTO (@Valid)
-                ↓
-4. Controller mappt DTO → SupplierEntity
-                ↓
-5. Controller ruft service.createSupplier(entity) auf
-                ↓
-6. Service führt Business-Validierung durch
-                ↓
-7. Service speichert via repository.save(entity)
-                ↓
-8. Service gibt gespeicherte Entity zurück
-                ↓
-9. Controller mappt Entity → GetSupplierDto
-                ↓
-10. Controller gibt HTTP 201 + JSON zurück
-```
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Client
+    participant C as :SupplierController
+    participant DTO1 as «DTO»<br/>AddSupplierDto
+    participant E as «Entity»<br/>SupplierEntity
+    participant S as :SupplierService
+    participant R as :SupplierRepository
+    participant DB as «Database»<br/>PostgreSQL
+    participant DTO2 as «DTO»<br/>GetSupplierDto
 
+    activate Client
+    Client->>+C: POST /api/suppliers<br/>Content-Type: application/json<br/>{name, street, ...}
+    
+    Note over C: Spring deserialisiert<br/>JSON → AddSupplierDto
+    C-->+DTO1: <<create>>
+    
+    Note over C,DTO1: @Valid Annotation<br/>triggert Validierung
+    
+    C->>DTO1: toEntity()
+    DTO1->>+E: <<create>>
+    DTO1-->>-C: SupplierEntity
+    
+    C->>+S: createSupplier(entity)
+    
+    alt Business-Validierung erfolgreich
+        S->>+R: save(entity)
+        R->>+DB: INSERT INTO supplier<br/>VALUES (...)
+        DB-->>-R: ID generiert (z.B. sid=1)
+        Note over R: Hibernate aktualisiert<br/>Entity mit ID
+        R-->>-S: SupplierEntity (managed)
+        S-->>-C: SupplierEntity
+        
+        C->>E: toDto()
+        E->>+DTO2: <<create>>
+        E-->>C: GetSupplierDto
+        DTO2-->>-C: 
+        
+        C-->>-Client: HTTP/1.1 201 Created<br/>Content-Type: application/json<br/>{sid, name, ...}
+    else Validierung fehlgeschlagen
+        S-->>C: throw ValidationException
+        C-->>Client: HTTP/1.1 400 Bad Request<br/>{error details}
+    end
+    
+    deactivate Client
+```
 
 
 
