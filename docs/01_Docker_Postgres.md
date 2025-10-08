@@ -1,5 +1,8 @@
 
 # Aufsetzen und Konfigurieren: Docker + PostgreSQL
+> **Fortschritt:** <!-- wird live gezählt -->
+> - Gesamt: <span id="t-total">0</span>
+> - Erledigt: <span id="t-done">0</span>
 
 Statt der In‑Memory‑Datenbank H2 soll in diesem Tutorial die professionelle und Open‑Source‑Datenbank **PostgreSQL** verwendet werden. Wir setzen **keinen separaten DB‑Server** auf, sondern betreiben PostgreSQL in einem **Docker‑Container**. Dafür sind ein paar zusätzliche Konfigurationen nötig.
 
@@ -49,6 +52,4 @@ services:
 
 - [ ] Starte den Container und teste die Verbindung mit einem Datenbank-Client (z.B. IntelliJ Database Tool, o.Ä.):
 
-> **Fortschritt:** <!-- wird live gezählt -->
-> - Gesamt: <span id="t-total">0</span>
-> - Erledigt: <span id="t-done">0</span>
+
