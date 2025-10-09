@@ -1,0 +1,127 @@
+/* Progress Tracking Styles */
+
+/* Abgeschlossene Seiten - grüner Hintergrund */
+.md-nav__link.completed {
+    background-color: rgba(76, 175, 80, 0.1) !important;
+    border-left: 3px solid #4caf50 !important;
+    color: #4caf50 !important;
+    font-weight: 600 !important;
+}
+
+.md-nav__link.completed:hover {
+    background-color: rgba(76, 175, 80, 0.2) !important;
+}
+
+/* In Progress - orange */
+.md-nav__link.in-progress {
+    border-left: 3px solid #ff9800 !important;
+    background-color: rgba(255, 152, 0, 0.05) !important;
+}
+
+.md-nav__link.in-progress:hover {
+    background-color: rgba(255, 152, 0, 0.1) !important;
+}
+
+/* Progress Indicator */
+.progress-indicator {
+    font-size: 0.85em;
+    margin-left: 8px;
+    font-weight: normal;
+    white-space: nowrap;
+}
+
+/* Checkmark für abgeschlossene Seiten */
+.md-nav__link.completed .progress-indicator {
+    color: #4caf50;
+    font-weight: bold;
+}
+
+.md-nav__link.in-progress .progress-indicator {
+    color: #ff9800;
+}
+
+/* Gesamtfortschritt-Widget (oben rechts) */
+.progress-summary {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    font-size: 0.9em;
+    min-width: 200px;
+    max-width: 250px;
+}
+
+/* Dark Mode Support */
+[data-md-color-scheme="slate"] .progress-summary {
+    background: #1e1e1e;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+
+[data-md-color-scheme="slate"] .progress-summary button {
+    background: #2d2d2d;
+    border-color: #444;
+    color: #fff;
+}
+
+[data-md-color-scheme="slate"] .progress-summary button:hover {
+    background: #3d3d3d;
+}
+
+/* Progress Bar */
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+[data-md-color-scheme="slate"] .progress-bar {
+    background: #333;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4caf50, #8bc34a);
+    transition: width 0.3s ease;
+    border-radius: 5px;
+}
+
+/* Mobile Anpassungen */
+@media screen and (max-width: 76.1875em) {
+    .progress-summary {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin: 20px auto;
+        max-width: 90%;
+    }
+}
+
+/* Responsives Widget für kleine Bildschirme */
+@media screen and (max-width: 600px) {
+    .progress-summary {
+        font-size: 0.85em;
+        padding: 12px;
+        min-width: auto;
+    }
+}
+
+/* Smooth Transitions */
+.md-nav__link {
+    transition: all 0.2s ease;
+}
+
+/* Hover-Effekt für Reset-Button */
+.progress-summary button:hover {
+    background: #e0e0e0;
+}
+
+.progress-summary button:active {
+    transform: scale(0.98);
+}
