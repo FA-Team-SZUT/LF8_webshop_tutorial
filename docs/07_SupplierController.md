@@ -1,4 +1,3 @@
-
 # SupplierController – Architektur & Endpunkte
 
 ## Schichtenarchitektur: Controller vs. Service
