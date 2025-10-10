@@ -54,3 +54,15 @@ classDiagram
     Supplier "1" <--> "1" Contact : has
     Supplier "1" <--> "*" Article : delivers
 ```
+
+
+## Impressum
+
+Diese GitHub Pages-Seite ist Teil einer schulischen Lernsituation  
+im Bildungsgang **Fachinformatiker/in – Anwendungsentwicklung** am  
+**Schulzentrum Utbremen, Bremen**.
+
+Verantwortlich im Sinne des § 5 DDG ist das Schulzentrum Utbremen.  
+Vollständiges Impressum: [https://www.szut.de/impressum.html](https://www.szut.de/impressum.html)
+
+Diese Seite dient ausschließlich der schulischen Ausbildung und verfolgt **keine kommerziellen Zwecke**.
